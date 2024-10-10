@@ -2,11 +2,9 @@ package com.example.sudoku.model;
 
 import javafx.scene.control.Alert;
 
-import java.io.Serializable;
-
 /**
  * Alertbox
- * contiene los parametros para generar una ventana de alerta
+ * parameters for alert window
  */
 public class AlertBox implements IAlertBox {
     @Override

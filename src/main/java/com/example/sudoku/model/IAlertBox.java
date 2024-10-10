@@ -2,7 +2,7 @@ package com.example.sudoku.model;
 
 /**
  * IAlertbox
- * genera una ventana de alerta
+ * generates alert window
  */
 
 public interface IAlertBox {

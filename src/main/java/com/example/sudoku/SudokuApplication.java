@@ -1,5 +1,6 @@
 package com.example.sudoku;
 
+import com.example.sudoku.view.SudokuView;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -10,14 +11,11 @@ import java.io.IOException;
 public class SudokuApplication extends Application {
     @Override
     public void start(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(SudokuApplication.class.getResource("Sudoku-view.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 320, 240);
-        stage.setTitle("Hello!");
-        stage.setScene(scene);
-        stage.show();
+        SudokuView.getInstance();
     }
 
-    public static void main(String[] args) {
-        launch();
+    public static void main(String[] args)
+    {
+        launch(args);
     }
 }
