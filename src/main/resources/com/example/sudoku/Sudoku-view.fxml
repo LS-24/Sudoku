@@ -11,7 +11,6 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
 <VBox alignment="CENTER" prefHeight="480.0" prefWidth="720.0" spacing="20.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.sudoku.controller.SudokuController">
   <padding>
     <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
@@ -37,12 +36,12 @@
                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                  </rowConstraints>
                   <children>
-                     <TextField fx:id="c2F1TextField" alignment="CENTER" onInputMethodTextChanged="#onInputC2F1TextField" prefHeight="53.0" prefWidth="113.0" GridPane.columnIndex="1" />
-                     <TextField fx:id="c1F1TextField" alignment="CENTER" layoutX="10.0" layoutY="13.0" onInputMethodTextChanged="#onInputC1F1TextField" prefHeight="48.0" prefWidth="113.0" />
-                     <TextField fx:id="c1F2TextField" alignment="CENTER" layoutX="10.0" layoutY="13.0" onInputMethodTextChanged="#onInputC1F2TextField" prefHeight="56.0" prefWidth="124.0" GridPane.rowIndex="1" />
-                     <TextField fx:id="c2F2TextField" alignment="CENTER" layoutX="10.0" layoutY="13.0" onInputMethodTextChanged="#onInputC2F2TextField" prefHeight="66.0" prefWidth="120.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                     <TextField fx:id="c1F3TextField" alignment="CENTER" layoutX="10.0" layoutY="13.0" onInputMethodTextChanged="#onInputC1F3TextField" prefHeight="57.0" prefWidth="120.0" GridPane.rowIndex="2" />
-                     <TextField fx:id="c2F3TextField" alignment="CENTER" layoutX="10.0" layoutY="13.0" onInputMethodTextChanged="#onInputC2F3TextField" prefHeight="65.0" prefWidth="140.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                     <TextField fx:id="c2F1TextField" alignment="CENTER" editable="false" onKeyPressed="#onInputC2F1TextField" prefHeight="53.0" prefWidth="113.0" GridPane.columnIndex="1" />
+                     <TextField fx:id="c1F1TextField" alignment="CENTER" editable="false" layoutX="10.0" layoutY="13.0" onKeyPressed="#onInputC1F1TextField" prefHeight="48.0" prefWidth="113.0" />
+                     <TextField fx:id="c1F2TextField" alignment="CENTER" editable="false" layoutX="10.0" layoutY="13.0" onKeyPressed="#onInputC1F2TextField" prefHeight="56.0" prefWidth="124.0" GridPane.rowIndex="1" />
+                     <TextField fx:id="c2F2TextField" alignment="CENTER" editable="false" layoutX="10.0" layoutY="13.0" onKeyPressed="#onInputC2F2TextField" prefHeight="66.0" prefWidth="120.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                     <TextField fx:id="c1F3TextField" alignment="CENTER" editable="false" layoutX="10.0" layoutY="13.0" onKeyPressed="#onInputC1F3TextField" prefHeight="57.0" prefWidth="120.0" GridPane.rowIndex="2" />
+                     <TextField fx:id="c2F3TextField" alignment="CENTER" editable="false" layoutX="10.0" layoutY="13.0" onKeyPressed="#onInputC2F3TextField" prefHeight="65.0" prefWidth="140.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                   </children>
                </GridPane>
                <GridPane gridLinesVisible="true" layoutX="250.0" layoutY="10.0">
@@ -56,12 +55,12 @@
                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                   </rowConstraints>
                   <children>
-                     <TextField fx:id="c4F1TextField" alignment="CENTER" onInputMethodTextChanged="#onInputC4F1TextField" prefHeight="53.0" prefWidth="113.0" GridPane.columnIndex="1" />
-                     <TextField fx:id="c3F1TextField" alignment="CENTER" layoutX="10.0" layoutY="13.0" onInputMethodTextChanged="#onInputC3F1TextField" prefHeight="48.0" prefWidth="113.0" />
-                     <TextField fx:id="c3F2TextField" alignment="CENTER" layoutX="10.0" layoutY="13.0" onInputMethodTextChanged="#onInputC3F2TextField" prefHeight="56.0" prefWidth="124.0" GridPane.rowIndex="1" />
-                     <TextField fx:id="c4F2TextField" alignment="CENTER" layoutX="10.0" layoutY="13.0" onInputMethodTextChanged="#onInputC4F2TextField" prefHeight="66.0" prefWidth="120.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                     <TextField fx:id="c3F3TextField" alignment="CENTER" layoutX="10.0" layoutY="13.0" onInputMethodTextChanged="#onInputC3F3TextField" prefHeight="57.0" prefWidth="120.0" GridPane.rowIndex="2" />
-                     <TextField fx:id="c4F3TextField" alignment="CENTER" layoutX="10.0" layoutY="13.0" onInputMethodTextChanged="#onInputC4F3TextField" prefHeight="65.0" prefWidth="140.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                     <TextField fx:id="c4F1TextField" alignment="CENTER" editable="false" onKeyPressed="#onInputC4F1TextField" prefHeight="53.0" prefWidth="113.0" GridPane.columnIndex="1" />
+                     <TextField fx:id="c3F1TextField" alignment="CENTER" editable="false" layoutX="10.0" layoutY="13.0" onKeyPressed="#onInputC3F1TextField" prefHeight="48.0" prefWidth="113.0" />
+                     <TextField fx:id="c3F2TextField" alignment="CENTER" editable="false" layoutX="10.0" layoutY="13.0" onKeyPressed="#onInputC3F2TextField" prefHeight="56.0" prefWidth="124.0" GridPane.rowIndex="1" />
+                     <TextField fx:id="c4F2TextField" alignment="CENTER" editable="false" layoutX="10.0" layoutY="13.0" onKeyPressed="#onInputC4F2TextField" prefHeight="66.0" prefWidth="120.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                     <TextField fx:id="c3F3TextField" alignment="CENTER" editable="false" layoutX="10.0" layoutY="13.0" onKeyPressed="#onInputC3F3TextField" prefHeight="57.0" prefWidth="120.0" GridPane.rowIndex="2" />
+                     <TextField fx:id="c4F3TextField" alignment="CENTER" editable="false" layoutX="10.0" layoutY="13.0" onKeyPressed="#onInputC4F3TextField" prefHeight="65.0" prefWidth="140.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                   </children>
                </GridPane>
                <GridPane gridLinesVisible="true" layoutX="351.0" layoutY="10.0">
@@ -75,12 +74,12 @@
                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                   </rowConstraints>
                   <children>
-                     <TextField fx:id="c6F1TextField" alignment="CENTER" onInputMethodTextChanged="#onInputC6F1TextField" prefHeight="53.0" prefWidth="113.0" GridPane.columnIndex="1" />
-                     <TextField fx:id="c5F1TextField" alignment="CENTER" layoutX="10.0" layoutY="13.0" onInputMethodTextChanged="#onInputC5F1TextField" prefHeight="48.0" prefWidth="113.0" />
-                     <TextField fx:id="c5F2TextField" alignment="CENTER" layoutX="10.0" layoutY="13.0" onInputMethodTextChanged="#onInputC5F2TextField" prefHeight="56.0" prefWidth="124.0" GridPane.rowIndex="1" />
-                     <TextField fx:id="c6F2TextField" alignment="CENTER" layoutX="10.0" layoutY="13.0" onInputMethodTextChanged="#onInputC6F2TextField" prefHeight="66.0" prefWidth="120.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                     <TextField fx:id="c5F3TextField" alignment="CENTER" layoutX="10.0" layoutY="13.0" onInputMethodTextChanged="#onInputC5F3TextField" prefHeight="57.0" prefWidth="120.0" GridPane.rowIndex="2" />
-                     <TextField fx:id="c6F3TextField" alignment="CENTER" layoutX="10.0" layoutY="13.0" onInputMethodTextChanged="#onInputC6F3TextField" prefHeight="65.0" prefWidth="140.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                     <TextField fx:id="c6F1TextField" alignment="CENTER" editable="false" onKeyPressed="#onInputC6F1TextField" prefHeight="53.0" prefWidth="113.0" GridPane.columnIndex="1" />
+                     <TextField fx:id="c5F1TextField" alignment="CENTER" editable="false" layoutX="10.0" layoutY="13.0" onKeyPressed="#onInputC5F1TextField" prefHeight="48.0" prefWidth="113.0" />
+                     <TextField fx:id="c5F2TextField" alignment="CENTER" editable="false" layoutX="10.0" layoutY="13.0" onKeyPressed="#onInputC5F2TextField" prefHeight="56.0" prefWidth="124.0" GridPane.rowIndex="1" />
+                     <TextField fx:id="c6F2TextField" alignment="CENTER" editable="false" layoutX="10.0" layoutY="13.0" onKeyPressed="#onInputC6F2TextField" prefHeight="66.0" prefWidth="120.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                     <TextField fx:id="c5F3TextField" alignment="CENTER" editable="false" layoutX="10.0" layoutY="13.0" onKeyPressed="#onInputC5F3TextField" prefHeight="57.0" prefWidth="120.0" GridPane.rowIndex="2" />
+                     <TextField fx:id="c6F3TextField" alignment="CENTER" editable="false" layoutX="10.0" layoutY="13.0" onKeyPressed="#onInputC6F3TextField" prefHeight="65.0" prefWidth="140.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                   </children>
                </GridPane>
             </children>
@@ -101,12 +100,12 @@
                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                   </rowConstraints>
                   <children>
-                     <TextField fx:id="c2F4TextField" alignment="CENTER" onInputMethodTextChanged="#onInputC2F4TextField" prefHeight="53.0" prefWidth="113.0" GridPane.columnIndex="1" />
-                     <TextField fx:id="c1F4TextField" alignment="CENTER" layoutX="10.0" layoutY="13.0" onInputMethodTextChanged="#onInputC1F4TextField" prefHeight="48.0" prefWidth="113.0" />
-                     <TextField fx:id="c1F5TextField" alignment="CENTER" layoutX="10.0" layoutY="13.0" onInputMethodTextChanged="#onInputC1F5TextField" prefHeight="56.0" prefWidth="124.0" GridPane.rowIndex="1" />
-                     <TextField fx:id="c2F5TextField" alignment="CENTER" layoutX="10.0" layoutY="13.0" onInputMethodTextChanged="#onInputC2F5TextField" prefHeight="66.0" prefWidth="120.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                     <TextField fx:id="c1F6TextField" alignment="CENTER" layoutX="10.0" layoutY="13.0" onInputMethodTextChanged="#onInputC1F6TextField" prefHeight="57.0" prefWidth="120.0" GridPane.rowIndex="2" />
-                     <TextField fx:id="c2F6TextField" alignment="CENTER" layoutX="10.0" layoutY="13.0" onInputMethodTextChanged="#onInputC2F6TextField" prefHeight="65.0" prefWidth="140.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                     <TextField fx:id="c2F4TextField" alignment="CENTER" editable="false" onKeyPressed="#onInputC2F4TextField" prefHeight="53.0" prefWidth="113.0" GridPane.columnIndex="1" />
+                     <TextField fx:id="c1F4TextField" alignment="CENTER" editable="false" layoutX="10.0" layoutY="13.0" onKeyPressed="#onInputC1F4TextField" prefHeight="48.0" prefWidth="113.0" />
+                     <TextField fx:id="c1F5TextField" alignment="CENTER" editable="false" layoutX="10.0" layoutY="13.0" onKeyPressed="#onInputC1F5TextField" prefHeight="56.0" prefWidth="124.0" GridPane.rowIndex="1" />
+                     <TextField fx:id="c2F5TextField" alignment="CENTER" editable="false" layoutX="10.0" layoutY="13.0" onKeyPressed="#onInputC2F5TextField" prefHeight="66.0" prefWidth="120.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                     <TextField fx:id="c1F6TextField" alignment="CENTER" editable="false" layoutX="10.0" layoutY="13.0" onKeyPressed="#onInputC1F6TextField" prefHeight="57.0" prefWidth="120.0" GridPane.rowIndex="2" />
+                     <TextField fx:id="c2F6TextField" alignment="CENTER" editable="false" layoutX="10.0" layoutY="13.0" onKeyPressed="#onInputC2F6TextField" prefHeight="65.0" prefWidth="140.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                   </children>
                </GridPane>
                <GridPane gridLinesVisible="true" layoutX="250.0" layoutY="10.0">
@@ -120,12 +119,12 @@
                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                   </rowConstraints>
                   <children>
-                     <TextField fx:id="c4F4TextField" alignment="CENTER" onInputMethodTextChanged="#onInputC4F4TextField" prefHeight="53.0" prefWidth="113.0" GridPane.columnIndex="1" />
-                     <TextField fx:id="c3F4TextField" alignment="CENTER" layoutX="10.0" layoutY="13.0" onInputMethodTextChanged="#onInputC3F4TextField" prefHeight="48.0" prefWidth="113.0" />
-                     <TextField fx:id="c3F5TextField" alignment="CENTER" layoutX="10.0" layoutY="13.0" onInputMethodTextChanged="#onInputC3F5TextField" prefHeight="56.0" prefWidth="124.0" GridPane.rowIndex="1" />
-                     <TextField fx:id="c4F5TextField" alignment="CENTER" layoutX="10.0" layoutY="13.0" onInputMethodTextChanged="#onInputC4F5TextField" prefHeight="66.0" prefWidth="120.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                     <TextField fx:id="c3F6TextField" alignment="CENTER" layoutX="10.0" layoutY="13.0" onInputMethodTextChanged="#onInputC3F6TextField" prefHeight="57.0" prefWidth="120.0" GridPane.rowIndex="2" />
-                     <TextField fx:id="c4F6TextField" alignment="CENTER" layoutX="10.0" layoutY="13.0" onInputMethodTextChanged="#onInputC4F6TextField" prefHeight="65.0" prefWidth="140.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                     <TextField fx:id="c4F4TextField" alignment="CENTER" editable="false" onKeyPressed="#onInputC4F4TextField" prefHeight="53.0" prefWidth="113.0" GridPane.columnIndex="1" />
+                     <TextField fx:id="c3F4TextField" alignment="CENTER" editable="false" layoutX="10.0" layoutY="13.0" onKeyPressed="#onInputC3F4TextField" prefHeight="48.0" prefWidth="113.0" />
+                     <TextField fx:id="c3F5TextField" alignment="CENTER" editable="false" layoutX="10.0" layoutY="13.0" onKeyPressed="#onInputC3F5TextField" prefHeight="56.0" prefWidth="124.0" GridPane.rowIndex="1" />
+                     <TextField fx:id="c4F5TextField" alignment="CENTER" editable="false" layoutX="10.0" layoutY="13.0" onKeyPressed="#onInputC4F5TextField" prefHeight="66.0" prefWidth="120.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                     <TextField fx:id="c3F6TextField" alignment="CENTER" editable="false" layoutX="10.0" layoutY="13.0" onKeyPressed="#onInputC3F6TextField" prefHeight="57.0" prefWidth="120.0" GridPane.rowIndex="2" />
+                     <TextField fx:id="c4F6TextField" alignment="CENTER" editable="false" layoutX="10.0" layoutY="13.0" onKeyPressed="#onInputC4F6TextField" prefHeight="65.0" prefWidth="140.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                   </children>
                </GridPane>
                <GridPane gridLinesVisible="true" layoutX="351.0" layoutY="10.0">
@@ -139,12 +138,12 @@
                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                   </rowConstraints>
                   <children>
-                     <TextField fx:id="c6F4TextField" alignment="CENTER" onInputMethodTextChanged="#onInputC6F4TextField" prefHeight="53.0" prefWidth="113.0" GridPane.columnIndex="1" />
-                     <TextField fx:id="c5F4TextField" alignment="CENTER" layoutX="10.0" layoutY="13.0" onInputMethodTextChanged="#onInputC5F4TextField" prefHeight="48.0" prefWidth="113.0" />
-                     <TextField fx:id="c5F5TextField" alignment="CENTER" layoutX="10.0" layoutY="13.0" onInputMethodTextChanged="#onInputC5F5TextField" prefHeight="56.0" prefWidth="124.0" GridPane.rowIndex="1" />
-                     <TextField fx:id="c6F5TextField" alignment="CENTER" layoutX="10.0" layoutY="13.0" onInputMethodTextChanged="#onInputC6F5TextField" prefHeight="66.0" prefWidth="120.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                     <TextField fx:id="c5F6TextField" alignment="CENTER" layoutX="10.0" layoutY="13.0" onInputMethodTextChanged="#onInputC5F6TextField" prefHeight="57.0" prefWidth="120.0" GridPane.rowIndex="2" />
-                     <TextField fx:id="c6F6TextField" alignment="CENTER" layoutX="10.0" layoutY="13.0" onInputMethodTextChanged="#onInputC6F6TextField" prefHeight="65.0" prefWidth="140.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                     <TextField fx:id="c6F4TextField" alignment="CENTER" editable="false" onKeyPressed="#onInputC6F4TextField" prefHeight="53.0" prefWidth="113.0" GridPane.columnIndex="1" />
+                     <TextField fx:id="c5F4TextField" alignment="CENTER" editable="false" layoutX="10.0" layoutY="13.0" onKeyPressed="#onInputC5F4TextField" prefHeight="48.0" prefWidth="113.0" />
+                     <TextField fx:id="c5F5TextField" alignment="CENTER" editable="false" layoutX="10.0" layoutY="13.0" onKeyPressed="#onInputC5F5TextField" prefHeight="56.0" prefWidth="124.0" GridPane.rowIndex="1" />
+                     <TextField fx:id="c6F5TextField" alignment="CENTER" editable="false" layoutX="10.0" layoutY="13.0" onKeyPressed="#onInputC6F5TextField" prefHeight="66.0" prefWidth="120.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                     <TextField fx:id="c5F6TextField" alignment="CENTER" editable="false" layoutX="10.0" layoutY="13.0" onKeyPressed="#onInputC5F6TextField" prefHeight="57.0" prefWidth="120.0" GridPane.rowIndex="2" />
+                     <TextField fx:id="c6F6TextField" alignment="CENTER" editable="false" layoutX="10.0" layoutY="13.0" onKeyPressed="#onInputC6F6TextField" prefHeight="65.0" prefWidth="140.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                   </children>
                </GridPane>
             </children>
