@@ -531,7 +531,7 @@ public class SudokuController {
             new AlertBox().showAlert(
                     "Error",
                     "Los numeros no son validos",
-                    "Ingrese una letra minuscula!!");
+                    "Ingrese un numero entre 1 y 6!!");
         }
         isNumber= true;
         System.out.println(datos);
