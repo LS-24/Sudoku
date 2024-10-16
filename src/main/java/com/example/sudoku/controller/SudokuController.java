@@ -538,16 +538,16 @@ public class SudokuController {
 
     }
 
-    private String compararElementosFila(int valor, int[] fila) {
-        String s = "";
-        for (int i = 0; i < Array.getLength(fila); i++) {
-            if(Arrays.asList(fila).contains(valor)){
-                s = "-fx-background-color: blue;";
-            }
-            s =("-fx-background-color: white;");
-        }
-        return s;
-    }
+//    private String compararElementosFila(int valor, int[] fila) {
+//        String s = "";
+//        for (int i = 0; i < Array.getLength(fila); i++) {
+//            if(Arrays.asList(fila).contains(valor)){
+//                s = "-fx-background-color: blue;";
+//            }
+//            s =("-fx-background-color: white;");
+//        }
+//        return s;
+//    }
 
 
 
