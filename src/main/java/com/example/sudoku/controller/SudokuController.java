@@ -158,7 +158,6 @@ public class SudokuController {
         {
             fila1[0] = Integer.parseInt((event.getText()));//saves the accepted value in the corresponding space
             c1F1TextField.setText(String.valueOf(fila1[0]));//assigns the value to the corresponding space
-
         }
 
 
