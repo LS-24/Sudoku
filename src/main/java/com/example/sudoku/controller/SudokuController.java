@@ -5,8 +5,10 @@ import javafx.fxml.FXML;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
-import javafx.scene.input.InputMethodEvent;
 import javafx.scene.input.KeyEvent;
+
+import java.lang.reflect.Array;
+import java.util.Arrays;
 
 
 /**
@@ -131,14 +133,12 @@ public class SudokuController {
 
     boolean isNumber;
 
-    int[][] cuadricula = {
-            {0,0,0,0,0,0},
-            {0,0,0,0,0,0},
-            {0,0,0,0,0,0},
-            {0,0,0,0,0,0},
-            {0,0,0,0,0,0},
-            {0,0,0,0,0,0},
-    };
+    int[] fila1 = new int[6];
+    int[] fila2 = new int[6];
+    int[] fila3 = new int[6];
+    int[] fila4 = new int[6];
+    int[] fila5 = new int[6];
+    int[] fila6 = new int[6];
 
 
     @FXML
@@ -156,9 +156,10 @@ public class SudokuController {
         comprobarNumero(event.getText());
         if (isNumber && Integer.parseInt((event.getText())) <=6 && Integer.parseInt((event.getText())) >=1)//validates that the data entered is between 1 and 6
         {
-            cuadricula[0][0] = Integer.parseInt((event.getText()));//saves the accepted value in the corresponding space
-            c1F1TextField.setText(String.valueOf(cuadricula[0][0]));//assigns the value to the corresponding space
+            fila1[0] = Integer.parseInt((event.getText()));//saves the accepted value in the corresponding space
+            c1F1TextField.setText(String.valueOf(fila1[0]));//assigns the value to the corresponding space
         }
+
 
     }
 
@@ -166,16 +167,15 @@ public class SudokuController {
     void onInputC1F2TextField(KeyEvent event) {
         comprobarNumero(event.getText());
         if (isNumber && Integer.parseInt((event.getText())) <=6 && Integer.parseInt((event.getText())) >=1) {
-            cuadricula[1][0] = Integer.parseInt((event.getText()));
-            c1F2TextField.setText(String.valueOf(cuadricula[1][0]));
+            fila2[0] = Integer.parseInt((event.getText()));
+            c1F2TextField.setText(String.valueOf(fila2[0]));
         }
 
-        for (int i = 0; i < 6; i++) {
-            for (int j = 0; j < 6; j++) {
-                System.out.print(cuadricula[i][j]);
+        for (int i = 0; i < fila1.length; i++) {
+            System.out.print(fila1[i]);
             }
             System.out.println();
-        }
+
 
     }
 
@@ -185,8 +185,8 @@ public class SudokuController {
     void onInputC1F3TextField(KeyEvent event) {
         comprobarNumero(event.getText());
         if (isNumber && Integer.parseInt((event.getText())) <=6 && Integer.parseInt((event.getText())) >=1) {
-            cuadricula[2][0] = Integer.parseInt((event.getText()));
-            c1F3TextField.setText(String.valueOf(cuadricula[2][0]));
+            fila3[0] = Integer.parseInt((event.getText()));
+            c1F3TextField.setText(String.valueOf(fila3[0]));
         }
 
     }
@@ -195,8 +195,8 @@ public class SudokuController {
     void onInputC1F4TextField(KeyEvent event) {
         comprobarNumero(event.getText());
         if (isNumber && Integer.parseInt((event.getText())) <=6 && Integer.parseInt((event.getText())) >=1) {
-            cuadricula[3][0] = Integer.parseInt((event.getText()));
-            c1F4TextField.setText(String.valueOf(cuadricula[3][0]));
+            fila4[0] = Integer.parseInt((event.getText()));
+            c1F4TextField.setText(String.valueOf(fila4[0]));
         }
 
     }
@@ -205,8 +205,8 @@ public class SudokuController {
     void onInputC1F5TextField(KeyEvent event) {
         comprobarNumero(event.getText());
         if (isNumber && Integer.parseInt((event.getText())) <=6 && Integer.parseInt((event.getText())) >=1) {
-            cuadricula[4][0] = Integer.parseInt((event.getText()));
-            c1F5TextField.setText(String.valueOf(cuadricula[4][0]));
+            fila5[0] = Integer.parseInt((event.getText()));
+            c1F5TextField.setText(String.valueOf(fila5[0]));
         }
 
     }
@@ -215,8 +215,8 @@ public class SudokuController {
     void onInputC1F6TextField(KeyEvent event) {
         comprobarNumero(event.getText());
         if (isNumber && Integer.parseInt((event.getText())) <=6 && Integer.parseInt((event.getText())) >=1) {
-            cuadricula[5][0] = Integer.parseInt((event.getText()));
-            c1F6TextField.setText(String.valueOf(cuadricula[5][0]));
+            fila6[0] = Integer.parseInt((event.getText()));
+            c1F6TextField.setText(String.valueOf(fila6[0]));
         }
 
     }
@@ -225,8 +225,8 @@ public class SudokuController {
     void onInputC2F1TextField(KeyEvent event) {
         comprobarNumero(event.getText());
         if (isNumber && Integer.parseInt((event.getText())) <=6 && Integer.parseInt((event.getText())) >=1) {
-            cuadricula[0][1] = Integer.parseInt((event.getText()));
-            c2F1TextField.setText(String.valueOf(cuadricula[0][1]));
+            fila1[1] = Integer.parseInt((event.getText()));
+            c2F1TextField.setText(String.valueOf(fila1[1]));
         }
 
     }
@@ -235,8 +235,8 @@ public class SudokuController {
     void onInputC2F2TextField(KeyEvent event) {
         comprobarNumero(event.getText());
         if (isNumber && Integer.parseInt((event.getText())) <=6 && Integer.parseInt((event.getText())) >=1) {
-            cuadricula[1][1] = Integer.parseInt((event.getText()));
-            c1F2TextField.setText(String.valueOf(cuadricula[1][1]));
+            fila2[1] = Integer.parseInt((event.getText()));
+            c2F2TextField.setText(String.valueOf(fila2[1]));
         }
 
     }
@@ -245,8 +245,8 @@ public class SudokuController {
     void onInputC2F3TextField(KeyEvent event) {
         comprobarNumero(event.getText());
         if (isNumber && Integer.parseInt((event.getText())) <=6 && Integer.parseInt((event.getText())) >=1) {
-            cuadricula[2][1] = Integer.parseInt((event.getText()));
-            c2F3TextField.setText(String.valueOf(cuadricula[2][1]));
+            fila3[1] = Integer.parseInt((event.getText()));
+            c2F3TextField.setText(String.valueOf(fila3[1]));
         }
 
     }
@@ -255,8 +255,8 @@ public class SudokuController {
     void onInputC2F4TextField(KeyEvent event) {
         comprobarNumero(event.getText());
         if (isNumber && Integer.parseInt((event.getText())) <=6 && Integer.parseInt((event.getText())) >=1) {
-            cuadricula[3][1] = Integer.parseInt((event.getText()));
-            c2F4TextField.setText(String.valueOf(cuadricula[3][1]));
+            fila4[1] = Integer.parseInt((event.getText()));
+            c2F4TextField.setText(String.valueOf(fila4[1]));
         }
 
     }
@@ -265,8 +265,8 @@ public class SudokuController {
     void onInputC2F5TextField(KeyEvent event) {
         comprobarNumero(event.getText());
         if (isNumber && Integer.parseInt((event.getText())) <=6 && Integer.parseInt((event.getText())) >=1) {
-            cuadricula[4][1] = Integer.parseInt((event.getText()));
-            c2F5TextField.setText(String.valueOf(cuadricula[4][1]));
+            fila5[1] = Integer.parseInt((event.getText()));
+            c2F5TextField.setText(String.valueOf(fila5[1]));
         }
 
     }
@@ -275,8 +275,8 @@ public class SudokuController {
     void onInputC2F6TextField(KeyEvent event) {
         comprobarNumero(event.getText());
         if (isNumber && Integer.parseInt((event.getText())) <=6 && Integer.parseInt((event.getText())) >=1) {
-            cuadricula[5][1] = Integer.parseInt((event.getText()));
-            c2F6TextField.setText(String.valueOf(cuadricula[5][1]));
+            fila6[1] = Integer.parseInt((event.getText()));
+            c2F6TextField.setText(String.valueOf(fila6[1]));
         }
 
     }
@@ -285,8 +285,8 @@ public class SudokuController {
     void onInputC3F1TextField(KeyEvent event) {
         comprobarNumero(event.getText());
         if (isNumber && Integer.parseInt((event.getText())) <=6 && Integer.parseInt((event.getText())) >=1) {
-            cuadricula[0][2] = Integer.parseInt((event.getText()));
-            c3F1TextField.setText(String.valueOf(cuadricula[0][2]));
+            fila1[2] = Integer.parseInt((event.getText()));
+            c3F1TextField.setText(String.valueOf(fila1[2]));
         }
 
     }
@@ -295,8 +295,8 @@ public class SudokuController {
     void onInputC3F2TextField(KeyEvent event) {
         comprobarNumero(event.getText());
         if (isNumber && Integer.parseInt((event.getText())) <=6 && Integer.parseInt((event.getText())) >=1) {
-            cuadricula[1][2] = Integer.parseInt((event.getText()));
-            c3F2TextField.setText(String.valueOf(cuadricula[1][2]));
+            fila2[2] = Integer.parseInt((event.getText()));
+            c3F2TextField.setText(String.valueOf(fila2[2]));
         }
 
     }
@@ -305,8 +305,8 @@ public class SudokuController {
     void onInputC3F3TextField(KeyEvent event) {
         comprobarNumero(event.getText());
         if (isNumber && Integer.parseInt((event.getText())) <=6 && Integer.parseInt((event.getText())) >=1) {
-            cuadricula[2][2] = Integer.parseInt((event.getText()));
-            c3F3TextField.setText(String.valueOf(cuadricula[2][2]));
+            fila3[2] = Integer.parseInt((event.getText()));
+            c3F3TextField.setText(String.valueOf(fila3[2]));
         }
 
     }
@@ -315,8 +315,8 @@ public class SudokuController {
     void onInputC3F4TextField(KeyEvent event) {
         comprobarNumero(event.getText());
         if (isNumber && Integer.parseInt((event.getText())) <=6 && Integer.parseInt((event.getText())) >=1) {
-            cuadricula[3][2] = Integer.parseInt((event.getText()));
-            c3F4TextField.setText(String.valueOf(cuadricula[3][2]));
+            fila4[2] = Integer.parseInt((event.getText()));
+            c3F4TextField.setText(String.valueOf(fila4[2]));
         }
 
     }
@@ -325,8 +325,8 @@ public class SudokuController {
     void onInputC3F5TextField(KeyEvent event) {
         comprobarNumero(event.getText());
         if (isNumber && Integer.parseInt((event.getText())) <=6 && Integer.parseInt((event.getText())) >=1) {
-            cuadricula[4][2] = Integer.parseInt((event.getText()));
-            c3F5TextField.setText(String.valueOf(cuadricula[4][2]));
+            fila5[2] = Integer.parseInt((event.getText()));
+            c3F5TextField.setText(String.valueOf(fila5[2]));
         }
 
     }
@@ -335,8 +335,8 @@ public class SudokuController {
     void onInputC3F6TextField(KeyEvent event) {
         comprobarNumero(event.getText());
         if (isNumber && Integer.parseInt((event.getText())) <=6 && Integer.parseInt((event.getText())) >=1) {
-            cuadricula[5][2] = Integer.parseInt((event.getText()));
-            c3F6TextField.setText(String.valueOf(cuadricula[5][2]));
+            fila6[2] = Integer.parseInt((event.getText()));
+            c3F6TextField.setText(String.valueOf(fila6[2]));
         }
 
     }
@@ -345,8 +345,8 @@ public class SudokuController {
     void onInputC4F1TextField(KeyEvent event) {
         comprobarNumero(event.getText());
         if (isNumber && Integer.parseInt((event.getText())) <=6 && Integer.parseInt((event.getText())) >=1) {
-            cuadricula[0][3] = Integer.parseInt((event.getText()));
-            c4F1TextField.setText(String.valueOf(cuadricula[0][3]));
+            fila1[3] = Integer.parseInt((event.getText()));
+            c4F1TextField.setText(String.valueOf(fila1[3]));
         }
 
     }
@@ -355,8 +355,8 @@ public class SudokuController {
     void onInputC4F2TextField(KeyEvent event) {
         comprobarNumero(event.getText());
         if (isNumber && Integer.parseInt((event.getText())) <=6 && Integer.parseInt((event.getText())) >=1) {
-            cuadricula[1][3] = Integer.parseInt((event.getText()));
-            c4F2TextField.setText(String.valueOf(cuadricula[1][3]));
+            fila2[3] = Integer.parseInt((event.getText()));
+            c4F2TextField.setText(String.valueOf(fila2[3]));
         }
 
     }
@@ -365,8 +365,8 @@ public class SudokuController {
     void onInputC4F3TextField(KeyEvent event) {
         comprobarNumero(event.getText());
         if (isNumber && Integer.parseInt((event.getText())) <=6 && Integer.parseInt((event.getText())) >=1) {
-            cuadricula[2][3] = Integer.parseInt((event.getText()));
-            c4F3TextField.setText(String.valueOf(cuadricula[2][3]));
+            fila3[3] = Integer.parseInt((event.getText()));
+            c4F3TextField.setText(String.valueOf(fila3[3]));
         }
 
     }
@@ -375,8 +375,8 @@ public class SudokuController {
     void onInputC4F4TextField(KeyEvent event) {
         comprobarNumero(event.getText());
         if (isNumber && Integer.parseInt((event.getText())) <=6 && Integer.parseInt((event.getText())) >=1) {
-            cuadricula[3][3] = Integer.parseInt((event.getText()));
-            c4F4TextField.setText(String.valueOf(cuadricula[3][3]));
+            fila4[3] = Integer.parseInt((event.getText()));
+            c4F4TextField.setText(String.valueOf(fila4[3]));
         }
 
     }
@@ -385,8 +385,8 @@ public class SudokuController {
     void onInputC4F5TextField(KeyEvent event) {
         comprobarNumero(event.getText());
         if (isNumber && Integer.parseInt((event.getText())) <=6 && Integer.parseInt((event.getText())) >=1) {
-            cuadricula[4][3] = Integer.parseInt((event.getText()));
-            c4F5TextField.setText(String.valueOf(cuadricula[4][3]));
+            fila5[3] = Integer.parseInt((event.getText()));
+            c4F5TextField.setText(String.valueOf(fila5[3]));
         }
 
     }
@@ -395,8 +395,8 @@ public class SudokuController {
     void onInputC4F6TextField(KeyEvent event) {
         comprobarNumero(event.getText());
         if (isNumber && Integer.parseInt((event.getText())) <=6 && Integer.parseInt((event.getText())) >=1) {
-            cuadricula[5][3] = Integer.parseInt((event.getText()));
-            c4F6TextField.setText(String.valueOf(cuadricula[5][3]));
+            fila6[3] = Integer.parseInt((event.getText()));
+            c4F6TextField.setText(String.valueOf(fila6[3]));
         }
 
     }
@@ -405,8 +405,8 @@ public class SudokuController {
     void onInputC5F1TextField(KeyEvent event) {
         comprobarNumero(event.getText());
         if (isNumber && Integer.parseInt((event.getText())) <=6 && Integer.parseInt((event.getText())) >=1) {
-            cuadricula[0][4] = Integer.parseInt((event.getText()));
-            c5F1TextField.setText(String.valueOf(cuadricula[0][4]));
+            fila1[4] = Integer.parseInt((event.getText()));
+            c5F1TextField.setText(String.valueOf(fila1[4]));
         }
 
     }
@@ -415,8 +415,8 @@ public class SudokuController {
     void onInputC5F2TextField(KeyEvent event) {
         comprobarNumero(event.getText());
         if (isNumber && Integer.parseInt((event.getText())) <=6 && Integer.parseInt((event.getText())) >=1) {
-            cuadricula[1][4] = Integer.parseInt((event.getText()));
-            c5F2TextField.setText(String.valueOf(cuadricula[1][4]));
+            fila2[4] = Integer.parseInt((event.getText()));
+            c5F2TextField.setText(String.valueOf(fila2[4]));
         }
 
     }
@@ -425,8 +425,8 @@ public class SudokuController {
     void onInputC5F3TextField(KeyEvent event) {
         comprobarNumero(event.getText());
         if (isNumber && Integer.parseInt((event.getText())) <=6 && Integer.parseInt((event.getText())) >=1) {
-            cuadricula[2][4] = Integer.parseInt((event.getText()));
-            c5F3TextField.setText(String.valueOf(cuadricula[2][4]));
+            fila3[4] = Integer.parseInt((event.getText()));
+            c5F3TextField.setText(String.valueOf(fila3[4]));
         }
 
     }
@@ -435,8 +435,8 @@ public class SudokuController {
     void onInputC5F4TextField(KeyEvent event) {
         comprobarNumero(event.getText());
         if (isNumber && Integer.parseInt((event.getText())) <=6 && Integer.parseInt((event.getText())) >=1) {
-            cuadricula[3][4] = Integer.parseInt((event.getText()));
-            c5F4TextField.setText(String.valueOf(cuadricula[3][4]));
+            fila4[4] = Integer.parseInt((event.getText()));
+            c5F4TextField.setText(String.valueOf(fila4[4]));
         }
 
     }
@@ -445,8 +445,8 @@ public class SudokuController {
     void onInputC5F5TextField(KeyEvent event) {
         comprobarNumero(event.getText());
         if (isNumber && Integer.parseInt((event.getText())) <=6 && Integer.parseInt((event.getText())) >=1) {
-            cuadricula[4][4] = Integer.parseInt((event.getText()));
-            c5F5TextField.setText(String.valueOf(cuadricula[4][4]));
+            fila5[4] = Integer.parseInt((event.getText()));
+            c5F5TextField.setText(String.valueOf(fila5[4]));
         }
 
     }
@@ -455,8 +455,8 @@ public class SudokuController {
     void onInputC5F6TextField(KeyEvent event) {
         comprobarNumero(event.getText());
         if (isNumber && Integer.parseInt((event.getText())) <=6 && Integer.parseInt((event.getText())) >=1) {
-            cuadricula[5][4] = Integer.parseInt((event.getText()));
-            c5F6TextField.setText(String.valueOf(cuadricula[5][4]));
+            fila6[4] = Integer.parseInt((event.getText()));
+            c5F6TextField.setText(String.valueOf(fila6[4]));
         }
 
     }
@@ -465,8 +465,8 @@ public class SudokuController {
     void onInputC6F1TextField(KeyEvent event) {
         comprobarNumero(event.getText());
         if (isNumber && Integer.parseInt((event.getText())) <=6 && Integer.parseInt((event.getText())) >=1) {
-            cuadricula[0][5] = Integer.parseInt((event.getText()));
-            c6F1TextField.setText(String.valueOf(cuadricula[0][5]));
+            fila1[5] = Integer.parseInt((event.getText()));
+            c6F1TextField.setText(String.valueOf(fila1[5]));
         }
 
     }
@@ -475,8 +475,8 @@ public class SudokuController {
     void onInputC6F2TextField(KeyEvent event) {
         comprobarNumero(event.getText());
         if (isNumber && Integer.parseInt((event.getText())) <=6 && Integer.parseInt((event.getText())) >=1) {
-            cuadricula[1][5] = Integer.parseInt((event.getText()));
-            c6F2TextField.setText(String.valueOf(cuadricula[1][5]));
+            fila2[5] = Integer.parseInt((event.getText()));
+            c6F2TextField.setText(String.valueOf(fila2[5]));
         }
 
     }
@@ -485,8 +485,8 @@ public class SudokuController {
     void onInputC6F3TextField(KeyEvent event) {
         comprobarNumero(event.getText());
         if (isNumber && Integer.parseInt((event.getText())) <=6 && Integer.parseInt((event.getText())) >=1) {
-            cuadricula[2][5] = Integer.parseInt((event.getText()));
-            c6F3TextField.setText(String.valueOf(cuadricula[2][5]));
+            fila3[5] = Integer.parseInt((event.getText()));
+            c6F3TextField.setText(String.valueOf(fila3[5]));
         }
 
     }
@@ -495,8 +495,8 @@ public class SudokuController {
     void onInputC6F4TextField(KeyEvent event) {
         comprobarNumero(event.getText());
         if (isNumber && Integer.parseInt((event.getText())) <=6 && Integer.parseInt((event.getText())) >=1) {
-            cuadricula[3][5] = Integer.parseInt((event.getText()));
-            c6F4TextField.setText(String.valueOf(cuadricula[3][5]));
+            fila4[5] = Integer.parseInt((event.getText()));
+            c6F4TextField.setText(String.valueOf(fila4[5]));
         }
 
     }
@@ -505,8 +505,8 @@ public class SudokuController {
     void onInputC6F5TextField(KeyEvent event) {
         comprobarNumero(event.getText());
         if (isNumber && Integer.parseInt((event.getText())) <=6 && Integer.parseInt((event.getText())) >=1) {
-            cuadricula[4][5] = Integer.parseInt((event.getText()));
-            c6F5TextField.setText(String.valueOf(cuadricula[4][5]));
+            fila5[5] = Integer.parseInt((event.getText()));
+            c6F5TextField.setText(String.valueOf(fila5[5]));
         }
 
     }
@@ -515,8 +515,8 @@ public class SudokuController {
     void onInputC6F6TextField(KeyEvent event) {
         comprobarNumero(event.getText());
         if (isNumber && Integer.parseInt((event.getText())) <=6 && Integer.parseInt((event.getText())) >=1) {
-            cuadricula[5][5] = Integer.parseInt((event.getText()));
-            c6F6TextField.setText(String.valueOf(cuadricula[5][5]));
+            fila6[5] = Integer.parseInt((event.getText()));
+            c6F6TextField.setText(String.valueOf(fila6[5]));
         }
 
     }
@@ -526,7 +526,7 @@ public class SudokuController {
         return datos.matches("[A-Z,a-z,7-9,0]");
     }
 
-    public void comprobarNumero(String datos) {//If the number is accepted it indicates that it can be used, otherwise it generates an alert window
+    private void comprobarNumero(String datos) {//If the number is accepted it indicates that it can be used, otherwise it generates an alert window
         if ((validarIngresoNumeros(datos))) {
             new AlertBox().showAlert(
                     "Error",
@@ -537,6 +537,19 @@ public class SudokuController {
         System.out.println(datos);
 
     }
+
+    private String compararElementosFila(int valor, int[] fila) {
+        String s = "";
+        for (int i = 0; i < Array.getLength(fila); i++) {
+            if(Arrays.asList(fila).contains(valor)){
+                s = "-fx-background-color: blue;";
+            }
+            s =("-fx-background-color: white;");
+        }
+        return s;
+    }
+
+
 
 
 
