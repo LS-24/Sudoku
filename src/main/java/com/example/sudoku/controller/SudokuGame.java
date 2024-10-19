@@ -1,7 +1,14 @@
 package com.example.sudoku.controller;
 
+/**
+ * @autor larry zuñiga
+ * SudokuGame
+ * Class that represents the logic of the Sudoku game.
+ * Manage the game grid, validate moves and
+ * suggests numbers for empty cells.
+ */
+
 import com.example.sudoku.model.AlertBox;
-import javafx.scene.input.KeyEvent;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -10,141 +17,225 @@ import java.util.Random;
 public class SudokuGame {
 
     protected ArrayList<ArrayList<Integer>> cuadricula = new ArrayList<>(6);
-    private static final int tamaño = 6;// tamaño de del tablero de juego
-    boolean isNumber;
+    private static final int medida = 6;// tamaño de del tablero de juego
 
+
+    /**
+     * SudokuGame
+     * start the game
+     */
     public SudokuGame() {
         cuadricula = new ArrayList<>();
         iniciarCuadricula();
         iniciarCuadriculaConValores();
     }
 
+    /**
+     * iniciarCuadricula
+     * create a new game board
+     */
     private void iniciarCuadricula() {
-        for (int i = 0; i < 6;i++){
-            ArrayList<Integer> fila = new ArrayList(Collections.nCopies (tamaño, 0));
+        for (int i = 0; i < medida;i++){
+            ArrayList<Integer> fila = new ArrayList(Collections.nCopies (medida, 0));
             cuadricula.add(fila);
         }
     }
 
+    /**
+     * iniciarCuadriculaConValores
+     * enter some values to the board
+     */
     private void iniciarCuadriculaConValores() {
         Random random = new Random();
-        int cantidadDeIniciales = 10; // cantidad de numero con que iniciara el juego
+        int cantidadDeInicialesPorCuadro = 5; // Number of numbers to be placed per box
 
-        for (int i = 0; i < cantidadDeIniciales; i++) {
-            int fila = random.nextInt(tamaño);
-            int columna = random.nextInt(tamaño);
-            int numero = random.nextInt(tamaño) + 1; // genera valor entre 1 y 6
+        for (int cuadroFila = 0; cuadroFila < 2; cuadroFila++) {
+            for (int cuadroColumna = 0; cuadroColumna < 3; cuadroColumna++) {
+                int numerosColocados = 0;
 
-            if (sePuedeUsarNumero(fila, columna, numero)){
-                cuadricula.get(fila).set(columna, numero);
-            } else {
-                i--; // busca otro si no se puede usar
-            }
-        }
-    }
+                while (numerosColocados < cantidadDeInicialesPorCuadro) {
+                    int fila = cuadroFila * 3 + random.nextInt(3);
+                    int columna = cuadroColumna * 2 + random.nextInt(2);
+                    int numero = random.nextInt(medida) + 1; // generates number between 1 and 6
 
-    private boolean sePuedeUsarNumero(int fila, int columna, int numero) {
-        for (int f = 0; f < tamaño; f++) {
-            if (cuadricula.get(fila).get(f) == numero) {
-                return false;
-            }
-        }
-
-        for (int c = 0; c < tamaño; c++) {
-            if (cuadricula.get(c).get(columna) == numero) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    public ArrayList<ArrayList<Integer>> getCuadricula() {
-        return cuadricula;
-    }
-
-    private static boolean validarIngresoNumeros(String datos) //Check that the value meets the appropriate parameters
-    {
-        return datos.matches("[1-6]");
-    }
-
-    public void comprobarNumero(String datos) {//If the number is accepted it indicates that it can be used, otherwise it generates an alert window
-        if ((validarIngresoNumeros(datos))) {
-            isNumber = true;
-            System.out.println(datos);
-        } else {
-            new AlertBox().showAlert(
-                    "Error",
-                    "Los numeros no son validos",
-                    "Ingrese un numero entre 1 y 6!!");
-        }
-    }
-
-    public void onEntradaTextField(KeyEvent event, int fila, int columna) {
-        comprobarNumero(event.getText());
-        if (isNumber) {
-            int numero = Integer.parseInt(event.getText());
-            if (numero >=1 && numero <= 6) {
-                cuadricula.get(fila).set(columna, numero); //guarda el numero
-
-                if (!validarCuadricula()){
-                    new AlertBox().showAlert(
-                            "Error",
-                            "Tablero no valido",
-                            "Por favor, verificar numeros ingresados"
-                    );
-                }
-
-            }
-        }
-    }
-
-    public boolean validarCuadricula() {
-
-        for (int fil = 0; fil < tamaño; fil++) {
-            boolean [] ver = new boolean[tamaño + 1];
-            for  (int col = 0; col < ver.length; col++) {
-                Integer num = cuadricula.get(fil).get(col);
-                if (num != 0) {
-                    if (ver[num]) {
-                        return false;
+                    // If the number is invalid or empty
+                    if (cuadricula.get(fila).get(columna) == 0 && puedeUsarNumero(fila, columna, numero)) {
+                        cuadricula.get(fila).set(columna, numero);
+                        numerosColocados++;
                     }
-                    ver[num] = true;
                 }
             }
         }
 
-        for (int col = 0; col < tamaño; col++) { // validar columnas
-            boolean[] ver = new boolean[tamaño + 1];
-            for (int fil = 0; fil < tamaño; fil++) {
-                int num = cuadricula.get(fil).get(col);
-                if (num != 0) {
-                    if (ver[num]) {
-                        return false;
+        // validate grid initial grid
+        if (!validarCuadriculaInicial()) {
+            new AlertBox().showAlert("Error", "La cuadrícula inicial no es válida. Regenerando...", "");
+            iniciarCuadricula();
+        }
+    }
+
+    /**
+     * validarCuadriculaInicial
+     * validate if the initial board is good
+     * @return boolean
+     */
+    public boolean validarCuadriculaInicial() {
+        for (int fila = 0; fila < medida; fila++) {
+            boolean[] verFila = new boolean[medida + 1];
+            boolean[] verColumna = new boolean[medida + 1];
+
+            for (int columna = 0; columna < medida; columna++) {
+                // Validar fila
+                int numFila = cuadricula.get(fila).get(columna);
+                if (numFila != 0) {
+                    if (verFila[numFila]) {
+                        return false; // Duplicado en fila
                     }
-                    ver[num] = true;
+                    verFila[numFila] = true;
+                }
+
+                // Validar columna
+                int numColumna = cuadricula.get(columna).get(fila);
+                if (numColumna != 0) {
+                    if (verColumna[numColumna]) {
+                        return false; // Duplicado en columna
+                    }
+                    verColumna[numColumna] = true;
                 }
             }
         }
 
-        for (int fil = 0; fil < 2 ; fil++ ) { // verificar cuadros
-            for (int col = 0; col <3; col++ ) {
-                boolean [] ver = new boolean[tamaño + 1];
-                for (int f = 0 ; f < 3; f++ ){
-                    for (int c = 0; c < 2; c++ ){
-                        int num = cuadricula.get(fil* 3 + f).get(col * 2 + c);
+        // Validar cuadros de 2x3
+        for (int cuadroFila = 0; cuadroFila < 2; cuadroFila++) {
+            for (int cuadroColumna = 0; cuadroColumna < 3; cuadroColumna++) {
+                boolean[] verCuadro = new boolean[medida + 1];
+                for (int f = 0; f < 3; f++) {
+                    for (int c = 0; c < 2; c++) {
+                        int num = cuadricula.get(cuadroFila * 3 + f).get(cuadroColumna * 2 + c);
                         if (num != 0) {
-                            if (ver[num]) {
-                                return false;
+                            if (verCuadro[num]) {
+                                return false; // Duplicado en cuadro
                             }
-                            ver[num] = true;
+                            verCuadro[num] = true;
                         }
                     }
                 }
             }
         }
-        return true;
+
+        return true; // La cuadrícula es válida
+    }
+
+
+    /**
+     * setNumero
+     * validate the numbers entered
+     * @param fila
+     * @param columna
+     * @param valor
+     */
+    public void setNumero(int fila, int columna, int valor) {
+            // Validar que el valor a establecer sea un número válido entre 0 y 6
+            if (valor >= 0 && valor <= 6) {
+                // Verificar si se puede usar el número en esa posición
+                if (puedeUsarNumero(fila, columna, valor)) {
+                    cuadricula.get(fila).set(columna, valor); // Establecer el valor en la cuadrícula
+                } else {
+                    new AlertBox().showAlert(
+                            "Error","El número " + valor, " no se puede usar en la posición (" + fila + ", " + columna + ").");
+                }
+            } else {
+                new AlertBox().showAlert(
+                        "Error","Número inválido. Debe estar entre 1 y 6.","Intente nuevamente");
+            }
 
     }
+
+    /**
+     * sugerirNumero
+     * suggests valid numbers to use
+     * @param fila
+     * @param columna
+     * @return number
+     */
+    public Integer sugerirNumero(int fila, int columna) {
+        if (cuadricula.get(fila).get(columna) == 0) {
+            for (int num = 1; num <= medida; num++) {
+                if (puedeUsarNumero(fila, columna, num)) {
+                    return num;
+                }
+            }
+        }
+        return null;
+    }
+
+    /**
+     * puedeUsarNumero
+     * check if the number can be used
+     * @param fila
+     * @param columna
+     * @param numero
+     * @return
+     */
+    public boolean puedeUsarNumero(int fila, int columna, int numero) {
+        for (int i = 0; i < medida; i++) {
+            if (cuadricula.get(fila).get(i) == numero || cuadricula.get(i).get(columna) == numero) {
+                return false; // Verifica filas y columnas
+            }
+        }
+
+        return !verNumerosEnCuadro(fila, columna, numero); // Verifica en el cuadro
+    }
+
+    /**
+     * verNumerosEnCuadro
+     *check numbers per box
+     * @param fila
+     * @param columna
+     * @param numero
+     * @return
+     */
+    private boolean verNumerosEnCuadro(int fila, int columna, int numero) {
+        int cuadroFila = fila / 3 * 3;
+        int cuadroColumna = columna / 2 * 2;
+
+        for (int f = 0; f < 3; f++) {
+            for (int c = 0; c < 2; c++) {
+                if (cuadricula.get(cuadroFila + f).get(cuadroColumna + c) == numero) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+
+    /**
+     *
+     * print the created grid
+     * @return
+     */
+    public ArrayList<ArrayList<Integer>> getCuadricula() {
+        return cuadricula;
+    }
+
+    /**
+     * isJuegoTerminado
+     * check if the game is over
+     * @return
+     */
+    public boolean isJuegoTerminado() {
+        for (int fila = 0; fila < medida; fila++) {
+            for (int columna = 0; columna < medida; columna++) {
+                if (cuadricula.get(fila).get(columna) == 0) {
+                    return false;
+                }
+            }
+        }
+
+        return validarCuadriculaInicial();
+    }
+
 
 
 }
