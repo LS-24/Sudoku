@@ -1,24 +1,39 @@
 package com.example.sudoku.controller;
 
+/**
+ * @autor larry zuñiga
+ * SudokuController
+ * Class that represents the visual part of the game
+ *  * Manage events
+ */
+
 import com.example.sudoku.model.AlertBox;
 import javafx.fxml.FXML;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 
-import java.lang.reflect.Array;
-import java.util.Arrays;
+import java.util.ArrayList;
 
 
 /**
  * SudokuController
- * run the game
+ *
  */
-
 public class SudokuController {
+
+    protected SudokuGame sudokuGame;
+
+    @FXML
+    private TextArea numeroSugeridoTextArea;
+
     @FXML
     private Button ayudaButton;
+
+    @FXML
+    private Button inicioButton;
 
     @FXML
     private TextField c1F1TextField;
@@ -128,429 +143,170 @@ public class SudokuController {
     @FXML
     private TextField c6F6TextField;
 
-    @FXML
-    private Button inicioButton;
 
-    boolean isNumber;
-
-    int[] fila1 = new int[6];
-    int[] fila2 = new int[6];
-    int[] fila3 = new int[6];
-    int[] fila4 = new int[6];
-    int[] fila5 = new int[6];
-    int[] fila6 = new int[6];
-
-
+    /**
+     *controls help button events
+     * @param event
+     */
     @FXML
     void onAyudaButtonClick(ActionEvent event) {
-
+        // Buscar una celda vacía
+        for (int fila = 0; fila < 6; fila++) {
+            for (int columna = 0; columna < 6; columna++) {
+                if (sudokuGame.getCuadricula().get(fila).get(columna) == 0) {
+                    Integer sugerido = sudokuGame.sugerirNumero(fila, columna);
+                    if (sugerido != null) {
+                        numeroSugeridoTextArea.setText("Se sugiere el número " + sugerido + " para la celda (" + (fila + 1) + ", " + (columna + 1) + ").");
+                        new AlertBox().showAlert(
+                                "Sugerencia",
+                                "Se sugiere el número " + sugerido + " para la celda (" + (fila + 1) + ", " + (columna + 1) + ").",
+                                "¡Intenta usarlo!"
+                        );
+                    }
+                    return; // Salir tras hacer una sugerencia
+                }
+            }
+        }
+        new AlertBox().showAlert("Sin celdas vacías", "No hay celdas vacías para sugerir.", "");
     }
 
+
+    /**
+     *controls game start button events
+     * @param event
+     */
     @FXML
     void onInicioButtonClick(ActionEvent event) {
+        sudokuGame = new SudokuGame();
+        ayudaButton.setDisable(false);
+        numeroSugeridoTextArea.setText("");
+        actualizarInterfaz(sudokuGame.getCuadricula());
 
     }
 
-    @FXML
-    void onInputC1F1TextField(KeyEvent event) {
-        comprobarNumero(event.getText());
-        if (isNumber && Integer.parseInt((event.getText())) <=6 && Integer.parseInt((event.getText())) >=1)//validates that the data entered is between 1 and 6
-        {
-            fila1[0] = Integer.parseInt((event.getText()));//saves the accepted value in the corresponding space
-            c1F1TextField.setText(String.valueOf(fila1[0]));//assigns the value to the corresponding space
-        }
+    /**
+     *update the visual interface
+     * @param cuadricula
+     */
+    public void actualizarInterfaz(ArrayList<ArrayList<Integer>> cuadricula) {
+        c1F1TextField.setText(cuadricula.get(0).get(0) == 0 ? "" : String.valueOf(cuadricula.get(0).get(0)));
+        c1F2TextField.setText(cuadricula.get(0).get(1) == 0 ? "" : String.valueOf(cuadricula.get(0).get(1)));
+        c1F3TextField.setText(cuadricula.get(0).get(2) == 0 ? "" : String.valueOf(cuadricula.get(0).get(2)));
+        c1F4TextField.setText(cuadricula.get(0).get(3) == 0 ? "" : String.valueOf(cuadricula.get(0).get(3)));
+        c1F5TextField.setText(cuadricula.get(0).get(4) == 0 ? "" : String.valueOf(cuadricula.get(0).get(4)));
+        c1F6TextField.setText(cuadricula.get(0).get(5) == 0 ? "" : String.valueOf(cuadricula.get(0).get(5)));
 
+        c2F1TextField.setText(cuadricula.get(1).get(0) == 0 ? "" : String.valueOf(cuadricula.get(1).get(0)));
+        c2F2TextField.setText(cuadricula.get(1).get(1) == 0 ? "" : String.valueOf(cuadricula.get(1).get(1)));
+        c2F3TextField.setText(cuadricula.get(1).get(2) == 0 ? "" : String.valueOf(cuadricula.get(1).get(2)));
+        c2F4TextField.setText(cuadricula.get(1).get(3) == 0 ? "" : String.valueOf(cuadricula.get(1).get(3)));
+        c2F5TextField.setText(cuadricula.get(1).get(4) == 0 ? "" : String.valueOf(cuadricula.get(1).get(4)));
+        c2F6TextField.setText(cuadricula.get(1).get(5) == 0 ? "" : String.valueOf(cuadricula.get(1).get(5)));
 
+        c3F1TextField.setText(cuadricula.get(2).get(0) == 0 ? "" : String.valueOf(cuadricula.get(2).get(0)));
+        c3F2TextField.setText(cuadricula.get(2).get(1) == 0 ? "" : String.valueOf(cuadricula.get(2).get(1)));
+        c3F3TextField.setText(cuadricula.get(2).get(2) == 0 ? "" : String.valueOf(cuadricula.get(2).get(2)));
+        c3F4TextField.setText(cuadricula.get(2).get(3) == 0 ? "" : String.valueOf(cuadricula.get(2).get(3)));
+        c3F5TextField.setText(cuadricula.get(2).get(4) == 0 ? "" : String.valueOf(cuadricula.get(2).get(4)));
+        c3F6TextField.setText(cuadricula.get(2).get(5) == 0 ? "" : String.valueOf(cuadricula.get(2).get(5)));
+
+        c4F1TextField.setText(cuadricula.get(3).get(0) == 0 ? "" : String.valueOf(cuadricula.get(3).get(0)));
+        c4F2TextField.setText(cuadricula.get(3).get(1) == 0 ? "" : String.valueOf(cuadricula.get(3).get(1)));
+        c4F3TextField.setText(cuadricula.get(3).get(2) == 0 ? "" : String.valueOf(cuadricula.get(3).get(2)));
+        c4F4TextField.setText(cuadricula.get(3).get(3) == 0 ? "" : String.valueOf(cuadricula.get(3).get(3)));
+        c4F5TextField.setText(cuadricula.get(3).get(4) == 0 ? "" : String.valueOf(cuadricula.get(3).get(4)));
+        c4F6TextField.setText(cuadricula.get(3).get(5) == 0 ? "" : String.valueOf(cuadricula.get(3).get(5)));
+
+        c5F1TextField.setText(cuadricula.get(4).get(0) == 0 ? "" : String.valueOf(cuadricula.get(4).get(0)));
+        c5F2TextField.setText(cuadricula.get(4).get(1) == 0 ? "" : String.valueOf(cuadricula.get(4).get(1)));
+        c5F3TextField.setText(cuadricula.get(4).get(2) == 0 ? "" : String.valueOf(cuadricula.get(4).get(2)));
+        c5F4TextField.setText(cuadricula.get(4).get(3) == 0 ? "" : String.valueOf(cuadricula.get(4).get(3)));
+        c5F5TextField.setText(cuadricula.get(4).get(4) == 0 ? "" : String.valueOf(cuadricula.get(4).get(4)));
+        c5F6TextField.setText(cuadricula.get(4).get(5) == 0 ? "" : String.valueOf(cuadricula.get(4).get(5)));
+
+        c6F1TextField.setText(cuadricula.get(5).get(0) == 0 ? "" : String.valueOf(cuadricula.get(5).get(0)));
+        c6F2TextField.setText(cuadricula.get(5).get(1) == 0 ? "" : String.valueOf(cuadricula.get(5).get(1)));
+        c6F3TextField.setText(cuadricula.get(5).get(2) == 0 ? "" : String.valueOf(cuadricula.get(5).get(2)));
+        c6F4TextField.setText(cuadricula.get(5).get(3) == 0 ? "" : String.valueOf(cuadricula.get(5).get(3)));
+        c6F5TextField.setText(cuadricula.get(5).get(4) == 0 ? "" : String.valueOf(cuadricula.get(5).get(4)));
+        c6F6TextField.setText(cuadricula.get(5).get(5) == 0 ? "" : String.valueOf(cuadricula.get(5).get(5)));
     }
 
-    @FXML
-    void onInputC1F2TextField(KeyEvent event) {
-        comprobarNumero(event.getText());
-        if (isNumber && Integer.parseInt((event.getText())) <=6 && Integer.parseInt((event.getText())) >=1) {
-            fila2[0] = Integer.parseInt((event.getText()));
-            c1F2TextField.setText(String.valueOf(fila2[0]));
-        }
 
-        for (int i = 0; i < fila1.length; i++) {
-            System.out.print(fila1[i]);
+    /**
+     * controls the events generated in the Textfields
+     * @param event
+     */
+    @FXML
+    void onEntradasTextFields(KeyEvent event) {
+        TextField source = (TextField) event.getSource();
+        String input = event.getText();
+
+        int fila = -1, columna = -1;
+
+        // Determina la fila y la columna según el TextField que se activó
+        if (source == c1F1TextField) { fila = 0; columna = 0; }
+        else if (source == c1F2TextField) { fila = 0; columna = 1; }
+        else if (source == c1F3TextField) { fila = 0; columna = 2; }
+        else if (source == c1F4TextField) { fila = 0; columna = 3; }
+        else if (source == c1F5TextField) { fila = 0; columna = 4; }
+        else if (source == c1F6TextField) { fila = 0; columna = 5; }
+        else if (source == c2F1TextField) { fila = 1; columna = 0; }
+        else if (source == c2F2TextField) { fila = 1; columna = 1; }
+        else if (source == c2F3TextField) { fila = 1; columna = 2; }
+        else if (source == c2F4TextField) { fila = 1; columna = 3; }
+        else if (source == c2F5TextField) { fila = 1; columna = 4; }
+        else if (source == c2F6TextField) { fila = 1; columna = 5; }
+        else if (source == c3F1TextField) { fila = 2; columna = 0; }
+        else if (source == c3F2TextField) { fila = 2; columna = 1; }
+        else if (source == c3F3TextField) { fila = 2; columna = 2; }
+        else if (source == c3F4TextField) { fila = 2; columna = 3; }
+        else if (source == c3F5TextField) { fila = 2; columna = 4; }
+        else if (source == c3F6TextField) { fila = 2; columna = 5; }
+        else if (source == c4F1TextField) { fila = 3; columna = 0; }
+        else if (source == c4F2TextField) { fila = 3; columna = 1; }
+        else if (source == c4F3TextField) { fila = 3; columna = 2; }
+        else if (source == c4F4TextField) { fila = 3; columna = 3; }
+        else if (source == c4F5TextField) { fila = 3; columna = 4; }
+        else if (source == c4F6TextField) { fila = 3; columna = 5; }
+        else if (source == c5F1TextField) { fila = 4; columna = 0; }
+        else if (source == c5F2TextField) { fila = 4; columna = 1; }
+        else if (source == c5F3TextField) { fila = 4; columna = 2; }
+        else if (source == c5F4TextField) { fila = 4; columna = 3; }
+        else if (source == c5F5TextField) { fila = 4; columna = 4; }
+        else if (source == c5F6TextField) { fila = 4; columna = 5; }
+        else if (source == c6F1TextField) { fila = 5; columna = 0; }
+        else if (source == c6F2TextField) { fila = 5; columna = 1; }
+        else if (source == c6F3TextField) { fila = 5; columna = 2; }
+        else if (source == c6F4TextField) { fila = 5; columna = 3; }
+        else if (source == c6F5TextField) { fila = 5; columna = 4; }
+        else if (source == c6F6TextField) { fila = 5; columna = 5; }
+
+
+
+
+
+        // Validar el texto ingresado
+        if (input.matches("[1-6]?")) {
+            int value = input.isEmpty() ? 0 : Integer.parseInt(input);
+            System.out.println("Cuadrícula antes: " + sudokuGame.getCuadricula());
+            sudokuGame.setNumero(fila, columna, value);
+            System.out.println("Cuadrícula después: " + sudokuGame.getCuadricula());
+            actualizarInterfaz(sudokuGame.getCuadricula());
+            if (sudokuGame.isJuegoTerminado()) {
+                new AlertBox().showAlert("¡Felicidades!", "¡Has completado el Sudoku correctamente!", "¡Buen trabajo!");
+                // Desactivar botones y campos
+                ayudaButton.setDisable(true);
+                inicioButton.setDisable(true);
+                // Aquí puedes deshabilitar todos los TextFields también
             }
-            System.out.println();
-
-
-    }
-
-
-
-    @FXML
-    void onInputC1F3TextField(KeyEvent event) {
-        comprobarNumero(event.getText());
-        if (isNumber && Integer.parseInt((event.getText())) <=6 && Integer.parseInt((event.getText())) >=1) {
-            fila3[0] = Integer.parseInt((event.getText()));
-            c1F3TextField.setText(String.valueOf(fila3[0]));
+        } else {
+            source.setText(""); // Limpiar el campo si el valor es inválido
+            // O puedes mostrar un mensaje de error si lo deseas
         }
 
-    }
 
-    @FXML
-    void onInputC1F4TextField(KeyEvent event) {
-        comprobarNumero(event.getText());
-        if (isNumber && Integer.parseInt((event.getText())) <=6 && Integer.parseInt((event.getText())) >=1) {
-            fila4[0] = Integer.parseInt((event.getText()));
-            c1F4TextField.setText(String.valueOf(fila4[0]));
-        }
-
-    }
-
-    @FXML
-    void onInputC1F5TextField(KeyEvent event) {
-        comprobarNumero(event.getText());
-        if (isNumber && Integer.parseInt((event.getText())) <=6 && Integer.parseInt((event.getText())) >=1) {
-            fila5[0] = Integer.parseInt((event.getText()));
-            c1F5TextField.setText(String.valueOf(fila5[0]));
-        }
-
-    }
-
-    @FXML
-    void onInputC1F6TextField(KeyEvent event) {
-        comprobarNumero(event.getText());
-        if (isNumber && Integer.parseInt((event.getText())) <=6 && Integer.parseInt((event.getText())) >=1) {
-            fila6[0] = Integer.parseInt((event.getText()));
-            c1F6TextField.setText(String.valueOf(fila6[0]));
-        }
-
-    }
-
-    @FXML
-    void onInputC2F1TextField(KeyEvent event) {
-        comprobarNumero(event.getText());
-        if (isNumber && Integer.parseInt((event.getText())) <=6 && Integer.parseInt((event.getText())) >=1) {
-            fila1[1] = Integer.parseInt((event.getText()));
-            c2F1TextField.setText(String.valueOf(fila1[1]));
-        }
-
-    }
-
-    @FXML
-    void onInputC2F2TextField(KeyEvent event) {
-        comprobarNumero(event.getText());
-        if (isNumber && Integer.parseInt((event.getText())) <=6 && Integer.parseInt((event.getText())) >=1) {
-            fila2[1] = Integer.parseInt((event.getText()));
-            c2F2TextField.setText(String.valueOf(fila2[1]));
-        }
-
-    }
-
-    @FXML
-    void onInputC2F3TextField(KeyEvent event) {
-        comprobarNumero(event.getText());
-        if (isNumber && Integer.parseInt((event.getText())) <=6 && Integer.parseInt((event.getText())) >=1) {
-            fila3[1] = Integer.parseInt((event.getText()));
-            c2F3TextField.setText(String.valueOf(fila3[1]));
-        }
-
-    }
-
-    @FXML
-    void onInputC2F4TextField(KeyEvent event) {
-        comprobarNumero(event.getText());
-        if (isNumber && Integer.parseInt((event.getText())) <=6 && Integer.parseInt((event.getText())) >=1) {
-            fila4[1] = Integer.parseInt((event.getText()));
-            c2F4TextField.setText(String.valueOf(fila4[1]));
-        }
-
-    }
-
-    @FXML
-    void onInputC2F5TextField(KeyEvent event) {
-        comprobarNumero(event.getText());
-        if (isNumber && Integer.parseInt((event.getText())) <=6 && Integer.parseInt((event.getText())) >=1) {
-            fila5[1] = Integer.parseInt((event.getText()));
-            c2F5TextField.setText(String.valueOf(fila5[1]));
-        }
-
-    }
-
-    @FXML
-    void onInputC2F6TextField(KeyEvent event) {
-        comprobarNumero(event.getText());
-        if (isNumber && Integer.parseInt((event.getText())) <=6 && Integer.parseInt((event.getText())) >=1) {
-            fila6[1] = Integer.parseInt((event.getText()));
-            c2F6TextField.setText(String.valueOf(fila6[1]));
-        }
-
-    }
-
-    @FXML
-    void onInputC3F1TextField(KeyEvent event) {
-        comprobarNumero(event.getText());
-        if (isNumber && Integer.parseInt((event.getText())) <=6 && Integer.parseInt((event.getText())) >=1) {
-            fila1[2] = Integer.parseInt((event.getText()));
-            c3F1TextField.setText(String.valueOf(fila1[2]));
-        }
-
-    }
-
-    @FXML
-    void onInputC3F2TextField(KeyEvent event) {
-        comprobarNumero(event.getText());
-        if (isNumber && Integer.parseInt((event.getText())) <=6 && Integer.parseInt((event.getText())) >=1) {
-            fila2[2] = Integer.parseInt((event.getText()));
-            c3F2TextField.setText(String.valueOf(fila2[2]));
-        }
-
-    }
-
-    @FXML
-    void onInputC3F3TextField(KeyEvent event) {
-        comprobarNumero(event.getText());
-        if (isNumber && Integer.parseInt((event.getText())) <=6 && Integer.parseInt((event.getText())) >=1) {
-            fila3[2] = Integer.parseInt((event.getText()));
-            c3F3TextField.setText(String.valueOf(fila3[2]));
-        }
-
-    }
-
-    @FXML
-    void onInputC3F4TextField(KeyEvent event) {
-        comprobarNumero(event.getText());
-        if (isNumber && Integer.parseInt((event.getText())) <=6 && Integer.parseInt((event.getText())) >=1) {
-            fila4[2] = Integer.parseInt((event.getText()));
-            c3F4TextField.setText(String.valueOf(fila4[2]));
-        }
-
-    }
-
-    @FXML
-    void onInputC3F5TextField(KeyEvent event) {
-        comprobarNumero(event.getText());
-        if (isNumber && Integer.parseInt((event.getText())) <=6 && Integer.parseInt((event.getText())) >=1) {
-            fila5[2] = Integer.parseInt((event.getText()));
-            c3F5TextField.setText(String.valueOf(fila5[2]));
-        }
-
-    }
-
-    @FXML
-    void onInputC3F6TextField(KeyEvent event) {
-        comprobarNumero(event.getText());
-        if (isNumber && Integer.parseInt((event.getText())) <=6 && Integer.parseInt((event.getText())) >=1) {
-            fila6[2] = Integer.parseInt((event.getText()));
-            c3F6TextField.setText(String.valueOf(fila6[2]));
-        }
-
-    }
-
-    @FXML
-    void onInputC4F1TextField(KeyEvent event) {
-        comprobarNumero(event.getText());
-        if (isNumber && Integer.parseInt((event.getText())) <=6 && Integer.parseInt((event.getText())) >=1) {
-            fila1[3] = Integer.parseInt((event.getText()));
-            c4F1TextField.setText(String.valueOf(fila1[3]));
-        }
-
-    }
-
-    @FXML
-    void onInputC4F2TextField(KeyEvent event) {
-        comprobarNumero(event.getText());
-        if (isNumber && Integer.parseInt((event.getText())) <=6 && Integer.parseInt((event.getText())) >=1) {
-            fila2[3] = Integer.parseInt((event.getText()));
-            c4F2TextField.setText(String.valueOf(fila2[3]));
-        }
-
-    }
-
-    @FXML
-    void onInputC4F3TextField(KeyEvent event) {
-        comprobarNumero(event.getText());
-        if (isNumber && Integer.parseInt((event.getText())) <=6 && Integer.parseInt((event.getText())) >=1) {
-            fila3[3] = Integer.parseInt((event.getText()));
-            c4F3TextField.setText(String.valueOf(fila3[3]));
-        }
-
-    }
-
-    @FXML
-    void onInputC4F4TextField(KeyEvent event) {
-        comprobarNumero(event.getText());
-        if (isNumber && Integer.parseInt((event.getText())) <=6 && Integer.parseInt((event.getText())) >=1) {
-            fila4[3] = Integer.parseInt((event.getText()));
-            c4F4TextField.setText(String.valueOf(fila4[3]));
-        }
-
-    }
-
-    @FXML
-    void onInputC4F5TextField(KeyEvent event) {
-        comprobarNumero(event.getText());
-        if (isNumber && Integer.parseInt((event.getText())) <=6 && Integer.parseInt((event.getText())) >=1) {
-            fila5[3] = Integer.parseInt((event.getText()));
-            c4F5TextField.setText(String.valueOf(fila5[3]));
-        }
-
-    }
-
-    @FXML
-    void onInputC4F6TextField(KeyEvent event) {
-        comprobarNumero(event.getText());
-        if (isNumber && Integer.parseInt((event.getText())) <=6 && Integer.parseInt((event.getText())) >=1) {
-            fila6[3] = Integer.parseInt((event.getText()));
-            c4F6TextField.setText(String.valueOf(fila6[3]));
-        }
-
-    }
-
-    @FXML
-    void onInputC5F1TextField(KeyEvent event) {
-        comprobarNumero(event.getText());
-        if (isNumber && Integer.parseInt((event.getText())) <=6 && Integer.parseInt((event.getText())) >=1) {
-            fila1[4] = Integer.parseInt((event.getText()));
-            c5F1TextField.setText(String.valueOf(fila1[4]));
-        }
-
-    }
-
-    @FXML
-    void onInputC5F2TextField(KeyEvent event) {
-        comprobarNumero(event.getText());
-        if (isNumber && Integer.parseInt((event.getText())) <=6 && Integer.parseInt((event.getText())) >=1) {
-            fila2[4] = Integer.parseInt((event.getText()));
-            c5F2TextField.setText(String.valueOf(fila2[4]));
-        }
-
-    }
-
-    @FXML
-    void onInputC5F3TextField(KeyEvent event) {
-        comprobarNumero(event.getText());
-        if (isNumber && Integer.parseInt((event.getText())) <=6 && Integer.parseInt((event.getText())) >=1) {
-            fila3[4] = Integer.parseInt((event.getText()));
-            c5F3TextField.setText(String.valueOf(fila3[4]));
-        }
-
-    }
-
-    @FXML
-    void onInputC5F4TextField(KeyEvent event) {
-        comprobarNumero(event.getText());
-        if (isNumber && Integer.parseInt((event.getText())) <=6 && Integer.parseInt((event.getText())) >=1) {
-            fila4[4] = Integer.parseInt((event.getText()));
-            c5F4TextField.setText(String.valueOf(fila4[4]));
-        }
-
-    }
-
-    @FXML
-    void onInputC5F5TextField(KeyEvent event) {
-        comprobarNumero(event.getText());
-        if (isNumber && Integer.parseInt((event.getText())) <=6 && Integer.parseInt((event.getText())) >=1) {
-            fila5[4] = Integer.parseInt((event.getText()));
-            c5F5TextField.setText(String.valueOf(fila5[4]));
-        }
-
-    }
-
-    @FXML
-    void onInputC5F6TextField(KeyEvent event) {
-        comprobarNumero(event.getText());
-        if (isNumber && Integer.parseInt((event.getText())) <=6 && Integer.parseInt((event.getText())) >=1) {
-            fila6[4] = Integer.parseInt((event.getText()));
-            c5F6TextField.setText(String.valueOf(fila6[4]));
-        }
-
-    }
-
-    @FXML
-    void onInputC6F1TextField(KeyEvent event) {
-        comprobarNumero(event.getText());
-        if (isNumber && Integer.parseInt((event.getText())) <=6 && Integer.parseInt((event.getText())) >=1) {
-            fila1[5] = Integer.parseInt((event.getText()));
-            c6F1TextField.setText(String.valueOf(fila1[5]));
-        }
-
-    }
-
-    @FXML
-    void onInputC6F2TextField(KeyEvent event) {
-        comprobarNumero(event.getText());
-        if (isNumber && Integer.parseInt((event.getText())) <=6 && Integer.parseInt((event.getText())) >=1) {
-            fila2[5] = Integer.parseInt((event.getText()));
-            c6F2TextField.setText(String.valueOf(fila2[5]));
-        }
-
-    }
-
-    @FXML
-    void onInputC6F3TextField(KeyEvent event) {
-        comprobarNumero(event.getText());
-        if (isNumber && Integer.parseInt((event.getText())) <=6 && Integer.parseInt((event.getText())) >=1) {
-            fila3[5] = Integer.parseInt((event.getText()));
-            c6F3TextField.setText(String.valueOf(fila3[5]));
-        }
-
-    }
-
-    @FXML
-    void onInputC6F4TextField(KeyEvent event) {
-        comprobarNumero(event.getText());
-        if (isNumber && Integer.parseInt((event.getText())) <=6 && Integer.parseInt((event.getText())) >=1) {
-            fila4[5] = Integer.parseInt((event.getText()));
-            c6F4TextField.setText(String.valueOf(fila4[5]));
-        }
-
-    }
-
-    @FXML
-    void onInputC6F5TextField(KeyEvent event) {
-        comprobarNumero(event.getText());
-        if (isNumber && Integer.parseInt((event.getText())) <=6 && Integer.parseInt((event.getText())) >=1) {
-            fila5[5] = Integer.parseInt((event.getText()));
-            c6F5TextField.setText(String.valueOf(fila5[5]));
-        }
-
-    }
-
-    @FXML
-    void onInputC6F6TextField(KeyEvent event) {
-        comprobarNumero(event.getText());
-        if (isNumber && Integer.parseInt((event.getText())) <=6 && Integer.parseInt((event.getText())) >=1) {
-            fila6[5] = Integer.parseInt((event.getText()));
-            c6F6TextField.setText(String.valueOf(fila6[5]));
-        }
-
-    }
-
-    private static boolean validarIngresoNumeros(String datos) //Check that the value meets the appropriate parameters
-    {
-        return datos.matches("[A-Z,a-z,7-9,0]");
-    }
-
-    private void comprobarNumero(String datos) {//If the number is accepted it indicates that it can be used, otherwise it generates an alert window
-        if ((validarIngresoNumeros(datos))) {
-            new AlertBox().showAlert(
-                    "Error",
-                    "Los numeros no son validos",
-                    "Ingrese un numero entre 1 y 6!!");
-        }
-        isNumber= true;
-        System.out.println(datos);
-
-    }
-
-    private String compararElementosFila(int valor, int[] fila) {
-        String s = "";
-        for (int i = 0; i < Array.getLength(fila); i++) {
-            if(Arrays.asList(fila).contains(valor)){
-                s = "-fx-background-color: blue;";
-            }
-            s =("-fx-background-color: white;");
-        }
-        return s;
-    }
-
-
-
+}
 
 
 }
