@@ -47,83 +47,52 @@ public class SudokuGame {
      */
     private void iniciarCuadriculaConValores() {
         Random random = new Random();
-        int cantidadDeInicialesPorCuadro = 5; // Number of numbers to be placed per box
+        int cantidadDeIniciales = 2; // Número total de números a colocar en el tablero
 
-        for (int cuadroFila = 0; cuadroFila < 2; cuadroFila++) {
-            for (int cuadroColumna = 0; cuadroColumna < 3; cuadroColumna++) {
-                int numerosColocados = 0;
+        for (int numerosColocados = 0; numerosColocados < cantidadDeIniciales; ) {
+            int fila = random.nextInt(medida); // Selecciona una fila aleatoria
+            int columna = random.nextInt(medida); // Selecciona una columna aleatoria
+            int numero = random.nextInt(medida) + 1; // Genera un número entre 1 y 6
 
-                while (numerosColocados < cantidadDeInicialesPorCuadro) {
-                    int fila = cuadroFila * 3 + random.nextInt(3);
-                    int columna = cuadroColumna * 2 + random.nextInt(2);
-                    int numero = random.nextInt(medida) + 1; // generates number between 1 and 6
-
-                    // If the number is invalid or empty
-                    if (cuadricula.get(fila).get(columna) == 0 && puedeUsarNumero(fila, columna, numero)) {
-                        cuadricula.get(fila).set(columna, numero);
-                        numerosColocados++;
-                    }
-                }
+            // Verificar si la posición está vacía y si el número puede usarse
+            if (cuadricula.get(fila).get(columna) == 0 && puedeUsarNumero(fila, columna, numero)) {
+                cuadricula.get(fila).set(columna, numero);
+                numerosColocados++;
             }
         }
 
-        // validate grid initial grid
+        // Validar la cuadrícula inicial
         if (!validarCuadriculaInicial()) {
             new AlertBox().showAlert("Error", "La cuadrícula inicial no es válida. Regenerando...", "");
-            iniciarCuadricula();
+            iniciarCuadricula(); // Vuelve a iniciar la cuadrícula
         }
     }
 
-    /**
-     * validarCuadriculaInicial
-     * validate if the initial board is good
-     * @return boolean
-     */
     public boolean validarCuadriculaInicial() {
         for (int fila = 0; fila < medida; fila++) {
-            boolean[] verFila = new boolean[medida + 1];
-            boolean[] verColumna = new boolean[medida + 1];
-
             for (int columna = 0; columna < medida; columna++) {
-                // Validar fila
-                int numFila = cuadricula.get(fila).get(columna);
-                if (numFila != 0) {
-                    if (verFila[numFila]) {
-                        return false; // Duplicado en fila
-                    }
-                    verFila[numFila] = true;
-                }
+                // Si encontramos una celda vacía
+                if (cuadricula.get(fila).get(columna) == 0) {
+                    // Probar con números del 1 al 6
+                    for (int num = 1; num <= medida; num++) {
+                        if (puedeUsarNumero(fila, columna, num)) {
+                            // Colocar el número
+                            cuadricula.get(fila).set(columna, num);
 
-                // Validar columna
-                int numColumna = cuadricula.get(columna).get(fila);
-                if (numColumna != 0) {
-                    if (verColumna[numColumna]) {
-                        return false; // Duplicado en columna
-                    }
-                    verColumna[numColumna] = true;
-                }
-            }
-        }
-
-        // Validar cuadros de 2x3
-        for (int cuadroFila = 0; cuadroFila < 2; cuadroFila++) {
-            for (int cuadroColumna = 0; cuadroColumna < 3; cuadroColumna++) {
-                boolean[] verCuadro = new boolean[medida + 1];
-                for (int f = 0; f < 3; f++) {
-                    for (int c = 0; c < 2; c++) {
-                        int num = cuadricula.get(cuadroFila * 3 + f).get(cuadroColumna * 2 + c);
-                        if (num != 0) {
-                            if (verCuadro[num]) {
-                                return false; // Duplicado en cuadro
+                            // Recursivamente intentar resolver el resto
+                            if (validarCuadriculaInicial()) {
+                                return true;
                             }
-                            verCuadro[num] = true;
+
+                            // Deshacer el movimiento
+                            cuadricula.get(fila).set(columna, 0);
                         }
                     }
+                    return false; // Si ningún número funcionó, retorna falso
                 }
             }
         }
-
-        return true; // La cuadrícula es válida
+        return true; // Si no hay celdas vacías, el Sudoku está resuelto
     }
 
 
@@ -180,11 +149,10 @@ public class SudokuGame {
     public boolean puedeUsarNumero(int fila, int columna, int numero) {
         for (int i = 0; i < medida; i++) {
             if (cuadricula.get(fila).get(i) == numero || cuadricula.get(i).get(columna) == numero) {
-                return false; // Verifica filas y columnas
+                return false;
             }
         }
-
-        return !verNumerosEnCuadro(fila, columna, numero); // Verifica en el cuadro
+        return !verNumerosEnCuadro(fila, columna, numero);
     }
 
     /**
@@ -196,11 +164,11 @@ public class SudokuGame {
      * @return
      */
     private boolean verNumerosEnCuadro(int fila, int columna, int numero) {
-        int cuadroFila = fila / 3 * 3;
-        int cuadroColumna = columna / 2 * 2;
+        int cuadroFila = fila / 2 * 2;
+        int cuadroColumna = columna / 3 * 3;
 
-        for (int f = 0; f < 3; f++) {
-            for (int c = 0; c < 2; c++) {
+        for (int f = 0; f < 2; f++) {
+            for (int c = 0; c < 3; c++) {
                 if (cuadricula.get(cuadroFila + f).get(cuadroColumna + c) == numero) {
                     return true;
                 }
@@ -235,7 +203,6 @@ public class SudokuGame {
 
         return validarCuadriculaInicial();
     }
-
 
 
 }
