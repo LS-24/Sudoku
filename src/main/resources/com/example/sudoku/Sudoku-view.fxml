@@ -76,7 +76,7 @@
          </Label>
       </children>
    </HBox>
-   <VBox fx:id="tableroVbox" prefHeight="200.0" prefWidth="100.0" spacing="2.0">
+   <VBox fx:id="tableroVbox" disable="true" prefHeight="200.0" prefWidth="100.0" spacing="2.0">
       <children>
          <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="2.0">
             <children>
