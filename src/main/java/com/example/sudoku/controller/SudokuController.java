@@ -168,7 +168,7 @@ public class SudokuController {
                 "Si se ingresa un numero incorrecto la celda se resaltara en ROJO,\n" +
                         "Al precionar el boton de ayuda se resaltara con VERDE la celda,\n" +
                         "y se indicara en texto su posicion ,\n" +
-                        "Mucha suerte, diviertete!!"
+                        "Preciona INICIO para comenzar a jugar, mucha suerte, diviertete!!"
         );
 
     }

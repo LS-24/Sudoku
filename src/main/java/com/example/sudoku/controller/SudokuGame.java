@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
 
+
 public class SudokuGame {
 
     protected ArrayList<ArrayList<Integer>> cuadricula = new ArrayList<>(6);
