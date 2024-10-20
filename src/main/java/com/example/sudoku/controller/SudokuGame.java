@@ -5,10 +5,7 @@ package com.example.sudoku.controller;
  * SudokuGame
  * Class that represents the logic of the Sudoku game.
  * Manage the game grid, validate moves and
- * suggests numbers for empty cells.
  */
-
-import com.example.sudoku.model.AlertBox;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -17,7 +14,8 @@ import java.util.Random;
 public class SudokuGame {
 
     protected ArrayList<ArrayList<Integer>> cuadricula = new ArrayList<>(6);
-    private static final int medida = 6;// tamaño de del tablero de juego
+    // game board size
+    private static final int medida = 6;
 
 
     /**
@@ -36,7 +34,7 @@ public class SudokuGame {
      */
     private void iniciarCuadricula() {
         for (int i = 0; i < medida;i++){
-            ArrayList<Integer> fila = new ArrayList(Collections.nCopies (medida, 0));
+            ArrayList<Integer> fila = new ArrayList<>(Collections.nCopies (medida, 0));
             cuadricula.add(fila);
         }
     }
@@ -47,96 +45,57 @@ public class SudokuGame {
      */
     private void iniciarCuadriculaConValores() {
         Random random = new Random();
-        int cantidadDeIniciales = 2; // Número total de números a colocar en el tablero
+        int cantidadDeIniciales = 2; // Total number of numbers to place on the board at random
 
         for (int numerosColocados = 0; numerosColocados < cantidadDeIniciales; ) {
-            int fila = random.nextInt(medida); // Selecciona una fila aleatoria
-            int columna = random.nextInt(medida); // Selecciona una columna aleatoria
-            int numero = random.nextInt(medida) + 1; // Genera un número entre 1 y 6
+            int fila = random.nextInt(medida); // Select a random row
+            int columna = random.nextInt(medida); // Select a random column
+            int numero = random.nextInt(medida) + 1; // Generates a number between 1 and 6
 
-            // Verificar si la posición está vacía y si el número puede usarse
+            // Check if the position is empty and if the number can be used
             if (cuadricula.get(fila).get(columna) == 0 && puedeUsarNumero(fila, columna, numero)) {
                 cuadricula.get(fila).set(columna, numero);
                 numerosColocados++;
             }
         }
 
-        // Validar la cuadrícula inicial
+        // Validate initial grid could be resolved
         if (!validarCuadriculaInicial()) {
-            new AlertBox().showAlert("Error", "La cuadrícula inicial no es válida. Regenerando...", "");
-            iniciarCuadricula(); // Vuelve a iniciar la cuadrícula
+            iniciarCuadricula(); // Restart the grid
         }
     }
 
+    /**
+     * validarCuadriculaInicial
+     * @return
+     */
     public boolean validarCuadriculaInicial() {
         for (int fila = 0; fila < medida; fila++) {
             for (int columna = 0; columna < medida; columna++) {
-                // Si encontramos una celda vacía
+                // If the cell is empty
                 if (cuadricula.get(fila).get(columna) == 0) {
-                    // Probar con números del 1 al 6
+                    // Try numbers from 1 to 6
                     for (int num = 1; num <= medida; num++) {
                         if (puedeUsarNumero(fila, columna, num)) {
                             // Colocar el número
                             cuadricula.get(fila).set(columna, num);
 
-                            // Recursivamente intentar resolver el resto
+                            // Recursively try to solve the rest
                             if (validarCuadriculaInicial()) {
                                 return true;
                             }
 
-                            // Deshacer el movimiento
+                            // Undo the movement
                             cuadricula.get(fila).set(columna, 0);
                         }
                     }
-                    return false; // Si ningún número funcionó, retorna falso
+                    return false; // If no number worked, return false
                 }
             }
         }
-        return true; // Si no hay celdas vacías, el Sudoku está resuelto
+        return true; // If there are no empty cells, the Sudoku is solved
     }
 
-
-    /**
-     * setNumero
-     * validate the numbers entered
-     * @param fila
-     * @param columna
-     * @param valor
-     */
-    public void setNumero(int fila, int columna, int valor) {
-            // Validar que el valor a establecer sea un número válido entre 0 y 6
-            if (valor >= 0 && valor <= 6) {
-                // Verificar si se puede usar el número en esa posición
-                if (puedeUsarNumero(fila, columna, valor)) {
-                    cuadricula.get(fila).set(columna, valor); // Establecer el valor en la cuadrícula
-                } else {
-                    new AlertBox().showAlert(
-                            "Error","El número " + valor, " no se puede usar en la posición (" + fila + ", " + columna + ").");
-                }
-            } else {
-                new AlertBox().showAlert(
-                        "Error","Número inválido. Debe estar entre 1 y 6.","Intente nuevamente");
-            }
-
-    }
-
-    /**
-     * sugerirNumero
-     * suggests valid numbers to use
-     * @param fila
-     * @param columna
-     * @return number
-     */
-    public Integer sugerirNumero(int fila, int columna) {
-        if (cuadricula.get(fila).get(columna) == 0) {
-            for (int num = 1; num <= medida; num++) {
-                if (puedeUsarNumero(fila, columna, num)) {
-                    return num;
-                }
-            }
-        }
-        return null;
-    }
 
     /**
      * puedeUsarNumero
@@ -182,27 +141,10 @@ public class SudokuGame {
      *
      * print the created grid
      * @return
+     * quadricula for the game
      */
     public ArrayList<ArrayList<Integer>> getCuadricula() {
         return cuadricula;
     }
-
-    /**
-     * isJuegoTerminado
-     * check if the game is over
-     * @return
-     */
-    public boolean isJuegoTerminado() {
-        for (int fila = 0; fila < medida; fila++) {
-            for (int columna = 0; columna < medida; columna++) {
-                if (cuadricula.get(fila).get(columna) == 0) {
-                    return false;
-                }
-            }
-        }
-
-        return validarCuadriculaInicial();
-    }
-
 
 }
