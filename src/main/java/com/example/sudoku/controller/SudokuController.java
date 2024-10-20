@@ -298,11 +298,9 @@ public class SudokuController {
                 // Desactivar botones y campos
                 ayudaButton.setDisable(true);
                 inicioButton.setDisable(true);
-                // Aquí puedes deshabilitar todos los TextFields también
             }
         } else {
             source.setText(""); // Limpiar el campo si el valor es inválido
-            // O puedes mostrar un mensaje de error si lo deseas
         }
 
 
