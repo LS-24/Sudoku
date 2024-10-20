@@ -19,34 +19,64 @@
   <padding>
     <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
   </padding>
-
-        <Label text="SUDOKU">
-      <font>
-         <Font name="System Bold Italic" size="60.0" />
-      </font>
-      <textFill>
-         <LinearGradient endX="1.0" endY="0.08056872037914693" startX="1.0" startY="0.928909952606635">
-            <stops>
-               <Stop>
-                  <color>
-                     <Color green="0.1894736886024475" blue="0.9473684430122375" />
-                  </color>
-               </Stop>
-               <Stop offset="0.006711409395973154">
-                  <color>
-                     <Color green="0.1894736886024475" blue="0.9473684430122375" />
-                  </color>
-               </Stop>
-               <Stop offset="1.0">
-                  <color>
-                     <Color red="0.18333333730697632" green="1.0" />
-                  </color>
-               </Stop>
-            </stops>
-         </LinearGradient>
-      </textFill>
-   </Label>
-   <VBox prefHeight="200.0" prefWidth="100.0" spacing="2.0">
+   <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="20.0">
+      <children>
+      
+              <Label text="SUDOKU">
+            <font>
+               <Font name="System Bold Italic" size="60.0" />
+            </font>
+            <textFill>
+               <LinearGradient endX="1.0" endY="0.08056872037914693" startX="1.0" startY="0.928909952606635">
+                  <stops>
+                     <Stop>
+                        <color>
+                           <Color green="0.1894736886024475" blue="0.9473684430122375" />
+                        </color>
+                     </Stop>
+                     <Stop offset="0.006711409395973154">
+                        <color>
+                           <Color green="0.1882352977991104" blue="0.9490196108818054" />
+                        </color>
+                     </Stop>
+                     <Stop offset="1.0">
+                        <color>
+                           <Color red="0.1568627506494522" green="0.6431372761726379" blue="0.0235294122248888" />
+                        </color>
+                     </Stop>
+                  </stops>
+               </LinearGradient>
+            </textFill>
+         </Label>
+         <Label fx:id="informacionLabel" onMouseClicked="#onInformacionLabelClicked" text="?">
+            <font>
+               <Font name="System Bold" size="64.0" />
+            </font>
+            <textFill>
+               <LinearGradient endX="1.0" endY="0.08056872037914693" startX="1.0" startY="0.928909952606635">
+                  <stops>
+                     <Stop>
+                        <color>
+                           <Color green="0.1894736886024475" blue="0.9473684430122375" />
+                        </color>
+                     </Stop>
+                     <Stop offset="0.006711409395973154">
+                        <color>
+                           <Color green="0.1882352977991104" blue="0.9490196108818054" />
+                        </color>
+                     </Stop>
+                     <Stop offset="1.0">
+                        <color>
+                           <Color red="0.1568627506494522" green="0.6431372761726379" blue="0.0235294122248888" />
+                        </color>
+                     </Stop>
+                  </stops>
+               </LinearGradient>
+            </textFill>
+         </Label>
+      </children>
+   </HBox>
+   <VBox fx:id="tableroVbox" prefHeight="200.0" prefWidth="100.0" spacing="2.0">
       <children>
          <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="2.0">
             <children>

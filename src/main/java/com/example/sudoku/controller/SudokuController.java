@@ -14,17 +14,23 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.VBox;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 
 /**
  * SudokuController
- *
+ *visual parameters of the game
  */
 public class SudokuController {
 
     protected SudokuGame sudokuGame;
+
+    @FXML
+    private VBox tableroVbox;
 
     @FXML
     private TextArea numeroSugeridoTextArea;
@@ -144,26 +150,55 @@ public class SudokuController {
     private TextField c6F6TextField;
 
 
+    private ArrayList<ArrayList<Boolean>> mostrarVacio = new ArrayList<>();
+
+
+    /**
+     * onInformacionLabelClicked
+     * @param event
+     * generates a window with the game instructions
+     */
+    @FXML
+    void onInformacionLabelClicked(MouseEvent event) {
+        new AlertBox().showAlert(
+                "Instruciones de juego",
+                "El objetivo del juego es completar una cuadrícula de  6x6,\n" +
+                        "con números del 1 al 6, de manera que cada fila,\n" +
+                        "columna y bloque de 2x3 contenga todos los números sin repetir. ",
+                "Si se ingresa un numero incorrecto la celda se resaltara en ROJO,\n" +
+                        "Al precionar el boton de ayuda se resaltara con VERDE la celda,\n" +
+                        "y se indicara en texto su posicion ,\n" +
+                        "Mucha suerte, diviertete!!"
+        );
+
+    }
+
+
     /**
      *controls help button events
      * @param event
+     * suggests a number and highlights the box to use
      */
     @FXML
     void onAyudaButtonClick(ActionEvent event) {
-        // Buscar una celda vacía
+        // Create a copy of mostrarVacio
+        ArrayList<ArrayList<Boolean>> vacios = new ArrayList<>();
+        for (ArrayList<Boolean> fila : mostrarVacio) {
+            vacios.add(new ArrayList<>(fila));
+        }
+
+        // Find an empty cell
         for (int fila = 0; fila < 6; fila++) {
             for (int columna = 0; columna < 6; columna++) {
-                if (sudokuGame.getCuadricula().get(fila).get(columna) == 0) {
-                    Integer sugerido = sudokuGame.sugerirNumero(fila, columna);
+                if (vacios.get(fila).get(columna)) { // Check if the cell is empty
+                    Integer sugerido = sudokuGame.getCuadricula().get(fila).get(columna);
                     if (sugerido != null) {
-                        numeroSugeridoTextArea.setText("Se sugiere el número " + sugerido + " para la celda (" + (fila + 1) + ", " + (columna + 1) + ").");
-                        new AlertBox().showAlert(
-                                "Sugerencia",
-                                "Se sugiere el número " + sugerido + " para la celda (" + (fila + 1) + ", " + (columna + 1) + ").",
-                                "¡Intenta usarlo!"
-                        );
+                        TextField textFieldCorrespondiente = obtenerTextField(fila, columna);
+                        //highlight the suggested cell
+                        textFieldCorrespondiente.setStyle("-fx-border-color: green; -fx-border-width: 4px;");
+                        numeroSugeridoTextArea.setText("Puede usar el "+sugerido + " en la celda (" + (fila + 1) + ", " + (columna + 1) + ").");
                     }
-                    return; // Salir tras hacer una sugerencia
+                    return; // Leave after making a suggestion
                 }
             }
         }
@@ -174,77 +209,188 @@ public class SudokuController {
     /**
      *controls game start button events
      * @param event
+     * start the game
      */
     @FXML
     void onInicioButtonClick(ActionEvent event) {
+        new AlertBox().showAlert(
+                "",
+                "Precione Aceptar para iniciar un nuevo juego",
+                ""
+        );
         sudokuGame = new SudokuGame();
         ayudaButton.setDisable(false);
+        tableroVbox.setDisable(false);
         numeroSugeridoTextArea.setText("");
+
+        calcularMostrarVacio();
+
         actualizarInterfaz(sudokuGame.getCuadricula());
 
     }
 
     /**
-     *update the visual interface
-     * @param cuadricula
+     * calcularMostrarVacio
+     * add initial values to mostrarVacio
      */
-    public void actualizarInterfaz(ArrayList<ArrayList<Integer>> cuadricula) {
-        c1F1TextField.setText(cuadricula.get(0).get(0) == 0 ? "" : String.valueOf(cuadricula.get(0).get(0)));
-        c1F2TextField.setText(cuadricula.get(0).get(1) == 0 ? "" : String.valueOf(cuadricula.get(0).get(1)));
-        c1F3TextField.setText(cuadricula.get(0).get(2) == 0 ? "" : String.valueOf(cuadricula.get(0).get(2)));
-        c1F4TextField.setText(cuadricula.get(0).get(3) == 0 ? "" : String.valueOf(cuadricula.get(0).get(3)));
-        c1F5TextField.setText(cuadricula.get(0).get(4) == 0 ? "" : String.valueOf(cuadricula.get(0).get(4)));
-        c1F6TextField.setText(cuadricula.get(0).get(5) == 0 ? "" : String.valueOf(cuadricula.get(0).get(5)));
+    private void calcularMostrarVacio() {
+        mostrarVacio.clear(); //empty before initializing
 
-        c2F1TextField.setText(cuadricula.get(1).get(0) == 0 ? "" : String.valueOf(cuadricula.get(1).get(0)));
-        c2F2TextField.setText(cuadricula.get(1).get(1) == 0 ? "" : String.valueOf(cuadricula.get(1).get(1)));
-        c2F3TextField.setText(cuadricula.get(1).get(2) == 0 ? "" : String.valueOf(cuadricula.get(1).get(2)));
-        c2F4TextField.setText(cuadricula.get(1).get(3) == 0 ? "" : String.valueOf(cuadricula.get(1).get(3)));
-        c2F5TextField.setText(cuadricula.get(1).get(4) == 0 ? "" : String.valueOf(cuadricula.get(1).get(4)));
-        c2F6TextField.setText(cuadricula.get(1).get(5) == 0 ? "" : String.valueOf(cuadricula.get(1).get(5)));
+        for (int i = 0; i < 6; i++) {
+            ArrayList<Boolean> fila = new ArrayList<>();
+            for (int j = 0; j < 6; j++) {
+                fila.add(false); // Initialize all cells as non-empty
+            }
+            mostrarVacio.add(fila);
+        }
 
-        c3F1TextField.setText(cuadricula.get(2).get(0) == 0 ? "" : String.valueOf(cuadricula.get(2).get(0)));
-        c3F2TextField.setText(cuadricula.get(2).get(1) == 0 ? "" : String.valueOf(cuadricula.get(2).get(1)));
-        c3F3TextField.setText(cuadricula.get(2).get(2) == 0 ? "" : String.valueOf(cuadricula.get(2).get(2)));
-        c3F4TextField.setText(cuadricula.get(2).get(3) == 0 ? "" : String.valueOf(cuadricula.get(2).get(3)));
-        c3F5TextField.setText(cuadricula.get(2).get(4) == 0 ? "" : String.valueOf(cuadricula.get(2).get(4)));
-        c3F6TextField.setText(cuadricula.get(2).get(5) == 0 ? "" : String.valueOf(cuadricula.get(2).get(5)));
+        // Initialize the number of empty cells in each 2x3 house
+        for (int filaInicio = 0; filaInicio < 6; filaInicio += 2) {
+            for (int columnaInicio = 0; columnaInicio < 6; columnaInicio += 3) {
+                marcarCeldasVacias(filaInicio, columnaInicio);
+            }
+        }
+    }
 
-        c4F1TextField.setText(cuadricula.get(3).get(0) == 0 ? "" : String.valueOf(cuadricula.get(3).get(0)));
-        c4F2TextField.setText(cuadricula.get(3).get(1) == 0 ? "" : String.valueOf(cuadricula.get(3).get(1)));
-        c4F3TextField.setText(cuadricula.get(3).get(2) == 0 ? "" : String.valueOf(cuadricula.get(3).get(2)));
-        c4F4TextField.setText(cuadricula.get(3).get(3) == 0 ? "" : String.valueOf(cuadricula.get(3).get(3)));
-        c4F5TextField.setText(cuadricula.get(3).get(4) == 0 ? "" : String.valueOf(cuadricula.get(3).get(4)));
-        c4F6TextField.setText(cuadricula.get(3).get(5) == 0 ? "" : String.valueOf(cuadricula.get(3).get(5)));
+    /**
+     * marcarCeldasVacias
+     * @param filaInicio
+     * @param columnaInicio
+     * calculates which TextFields start empty and adds them to showEmpty
+     */
+    private void marcarCeldasVacias(int filaInicio, int columnaInicio) {
+        ArrayList<Integer> posiciones = new ArrayList<>();
+        for (int i = 0; i < 6; i++) {
+            posiciones.add(i);
+        }
 
-        c5F1TextField.setText(cuadricula.get(4).get(0) == 0 ? "" : String.valueOf(cuadricula.get(4).get(0)));
-        c5F2TextField.setText(cuadricula.get(4).get(1) == 0 ? "" : String.valueOf(cuadricula.get(4).get(1)));
-        c5F3TextField.setText(cuadricula.get(4).get(2) == 0 ? "" : String.valueOf(cuadricula.get(4).get(2)));
-        c5F4TextField.setText(cuadricula.get(4).get(3) == 0 ? "" : String.valueOf(cuadricula.get(4).get(3)));
-        c5F5TextField.setText(cuadricula.get(4).get(4) == 0 ? "" : String.valueOf(cuadricula.get(4).get(4)));
-        c5F6TextField.setText(cuadricula.get(4).get(5) == 0 ? "" : String.valueOf(cuadricula.get(4).get(5)));
+        // Select number of random positions
+        for (int count = 0; count < 4; count++) {
+            Random random = new Random();
+            int index = random.nextInt(posiciones.size());
+            int pos = posiciones.get(index);
+            posiciones.remove(index); // Prevents the same position from being selected multiple times
 
-        c6F1TextField.setText(cuadricula.get(5).get(0) == 0 ? "" : String.valueOf(cuadricula.get(5).get(0)));
-        c6F2TextField.setText(cuadricula.get(5).get(1) == 0 ? "" : String.valueOf(cuadricula.get(5).get(1)));
-        c6F3TextField.setText(cuadricula.get(5).get(2) == 0 ? "" : String.valueOf(cuadricula.get(5).get(2)));
-        c6F4TextField.setText(cuadricula.get(5).get(3) == 0 ? "" : String.valueOf(cuadricula.get(5).get(3)));
-        c6F5TextField.setText(cuadricula.get(5).get(4) == 0 ? "" : String.valueOf(cuadricula.get(5).get(4)));
-        c6F6TextField.setText(cuadricula.get(5).get(5) == 0 ? "" : String.valueOf(cuadricula.get(5).get(5)));
+            int fila = filaInicio + (pos / 3);
+            int columna = columnaInicio + (pos % 3);
+
+            mostrarVacio.get(fila).set(columna, true); // mark as empty
+        }
     }
 
 
     /**
-     * controls the events generated in the Textfields
+     *update the visual interface
+     * @param cuadricula
+     * Update game view
+     */
+    public void actualizarInterfaz(ArrayList<ArrayList<Integer>> cuadricula) {
+        for (int fila = 0; fila < 6; fila++) {
+            for (int columna = 0; columna < 6; columna++) {
+                TextField textField = obtenerTextField(fila, columna);
+                int valor = cuadricula.get(fila).get(columna);
+
+                boolean mostrar = mostrarVacio.get(fila).get(columna);
+                textField.setText(mostrar ? "" : (valor == 0 ? "" : String.valueOf(valor)));
+                textField.setStyle(mostrar ? "" : (valor == 0 ? "-fx-opacity: 0;" : ""));
+            }
+        }
+    }
+
+    /**
+     * obtenerTextField
+     * @param fila
+     * @param columna
+     * @return
+     * name of the TextArea it refers to
+     */
+    private TextField obtenerTextField(int fila, int columna) {
+        switch (fila) {
+            case 0 -> {
+                return switch (columna) {
+                    case 0 -> c1F1TextField;
+                    case 1 -> c1F2TextField;
+                    case 2 -> c1F3TextField;
+                    case 3 -> c1F4TextField;
+                    case 4 -> c1F5TextField;
+                    case 5 -> c1F6TextField;
+                    default -> null;
+                };
+            }
+            case 1 -> {
+                return switch (columna) {
+                    case 0 -> c2F1TextField;
+                    case 1 -> c2F2TextField;
+                    case 2 -> c2F3TextField;
+                    case 3 -> c2F4TextField;
+                    case 4 -> c2F5TextField;
+                    case 5 -> c2F6TextField;
+                    default -> null;
+                };
+            }
+            case 2 -> {
+                return switch (columna) {
+                    case 0 -> c3F1TextField;
+                    case 1 -> c3F2TextField;
+                    case 2 -> c3F3TextField;
+                    case 3 -> c3F4TextField;
+                    case 4 -> c3F5TextField;
+                    case 5 -> c3F6TextField;
+                    default -> null;
+                };
+            }
+            case 3 -> {
+                return switch (columna) {
+                    case 0 -> c4F1TextField;
+                    case 1 -> c4F2TextField;
+                    case 2 -> c4F3TextField;
+                    case 3 -> c4F4TextField;
+                    case 4 -> c4F5TextField;
+                    case 5 -> c4F6TextField;
+                    default -> null;
+                };
+            }
+            case 4 -> {
+                return switch (columna) {
+                    case 0 -> c5F1TextField;
+                    case 1 -> c5F2TextField;
+                    case 2 -> c5F3TextField;
+                    case 3 -> c5F4TextField;
+                    case 4 -> c5F5TextField;
+                    case 5 -> c5F6TextField;
+                    default -> null;
+                };
+            }
+            case 5 -> {
+                return switch (columna) {
+                    case 0 -> c6F1TextField;
+                    case 1 -> c6F2TextField;
+                    case 2 -> c6F3TextField;
+                    case 3 -> c6F4TextField;
+                    case 4 -> c6F5TextField;
+                    case 5 -> c6F6TextField;
+                    default -> null;
+                };
+            }
+            default -> {
+                return null;
+            }
+        }
+    }
+
+
+    /**
+     * onEntradasTextFields
      * @param event
+     * controls the events generated in the Textfields
      */
     @FXML
     void onEntradasTextFields(KeyEvent event) {
         TextField source = (TextField) event.getSource();
         String input = event.getText();
-
         int fila = -1, columna = -1;
 
-        // Determina la fila y la columna según el TextField que se activó
+        // Determines the row and column based on the TextField that was activated
         if (source == c1F1TextField) { fila = 0; columna = 0; }
         else if (source == c1F2TextField) { fila = 0; columna = 1; }
         else if (source == c1F3TextField) { fila = 0; columna = 2; }
@@ -284,27 +430,70 @@ public class SudokuController {
 
 
 
-
-
-        // Validar el texto ingresado
+        // Validates the text entered by the user
         if (input.matches("[1-6]?")) {
             int value = input.isEmpty() ? 0 : Integer.parseInt(input);
-            System.out.println("Cuadrícula antes: " + sudokuGame.getCuadricula());
-            sudokuGame.setNumero(fila, columna, value);
-            System.out.println("Cuadrícula después: " + sudokuGame.getCuadricula());
+
+            // Get correct value from grid
+            int valorCorrecto = sudokuGame.getCuadricula().get(fila).get(columna);
+
+            //Update the interface
             actualizarInterfaz(sudokuGame.getCuadricula());
-            if (sudokuGame.isJuegoTerminado()) {
+
+            //// If the value is correct, mark the cell as not empty
+            if (value == valorCorrecto) {
+                mostrarVacio.get(fila).set(columna, false);
+            }
+
+            // If the value entered is not correct, set the TextField to red
+            // Reset the style if correct
+            if (value != valorCorrecto) {
+                source.setStyle("-fx-border-color: red; -fx-border-width: 4px;");
+                source.setText(input);
+            } else {
+                source.setStyle("");
+                source.setText(String.valueOf(valorCorrecto));
+            }
+
+            // Check if the game is over and disable everything
+            if (verificarJuegoTerminado()) {
                 new AlertBox().showAlert("¡Felicidades!", "¡Has completado el Sudoku correctamente!", "¡Buen trabajo!");
-                // Desactivar botones y campos
                 ayudaButton.setDisable(true);
-                inicioButton.setDisable(true);
+                numeroSugeridoTextArea.setDisable(true);
+                tableroVbox.setDisable(true);
+
             }
         } else {
-            source.setText(""); // Limpiar el campo si el valor es inválido
+            new AlertBox().showAlert(
+                    "Error","Número inválido. Debe estar entre 1 y 6.","Intente nuevamente");
+            source.setText("");
+            source.setStyle("");
         }
 
+    }
 
-}
-
+    /**
+     * verificarJuegoTerminado
+     * @return
+     * Message that the game is completed
+     */
+    private boolean verificarJuegoTerminado() {
+        // Check if all TextFields are full
+        for (int fila = 0; fila < 6; fila++) {
+            for (int columna = 0; columna < 6; columna++) {
+                TextField textField = obtenerTextField(fila, columna);
+                String texto = null;
+                if (textField != null) {
+                    texto = textField.getText();
+                }
+                if (texto.isEmpty() || !texto.matches("[1-6]")) {
+                    // There is at least one empty or invalid field
+                    return false;
+                }
+            }
+        }
+        // All are complete
+        return true;
+    }
 
 }
