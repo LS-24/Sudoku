@@ -5,6 +5,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.Bloom?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
@@ -48,7 +49,7 @@
                </LinearGradient>
             </textFill>
          </Label>
-         <Label fx:id="informacionLabel" onMouseClicked="#onInformacionLabelClicked" text="?">
+         <Label fx:id="informacionLabel" alignment="CENTER" onMouseClicked="#onInformacionLabelClicked" prefHeight="93.0" prefWidth="53.0" text="?" underline="true">
             <font>
                <Font name="System Bold" size="64.0" />
             </font>
@@ -73,6 +74,9 @@
                   </stops>
                </LinearGradient>
             </textFill>
+            <effect>
+               <Bloom />
+            </effect>
          </Label>
       </children>
    </HBox>
